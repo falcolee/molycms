@@ -1,0 +1,281 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li><a href="index.php?u=article-index">文章列表</a></li>
+        <li class="current"><a href="index.php?u=article-add">添加文章</a></li>
+      </ul>
+</div>
+<style type="text/css">
+.wrap {
+    padding: 20px 20px 70px;
+}
+.col-auto {
+	overflow: hidden;
+	_zoom: 1;
+	_float: left;
+	border: 1px solid #c2d1d8;
+}
+.col-right {
+	float: right;
+	width: 210px;
+	overflow: hidden;
+	margin-left: 6px;
+	border: 1px solid #c2d1d8;
+}
+
+body fieldset {
+	border: 1px solid #D8D8D8;
+	padding: 10px;
+	background-color: #FFF;
+}
+body fieldset legend {
+    background-color: #F9F9F9;
+    border: 1px solid #D8D8D8;
+    font-weight: 700;
+    padding: 3px 8px;
+}
+</style>
+
+<div class="J_check_wrap contadd">
+    <form name="myform" id="myform" action="index.php?u=article-{$_GET['action']}" method="post" class="J_ajaxForms" enctype="multipart/form-data">
+        <div class="col-right">
+            <div class="table_full">
+                <table width="100%">
+                    <tr>
+                        <td><b>缩略图</b></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="text-align: center;">
+                                <input type='hidden' name='info[pic]' id='maybe_pic_val' value='{$data[pic]}'>
+                                <div class="picimg">
+                                	<img src='{$data[pic_src]}' id='maybe_pic_img' style='cursor:hand' />
+                                </div>
+                                <a id="maybe_pic_but" class="btn" href="javascript:;">上传缩略图</a>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><b>评论</b></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                <input type="radio" name='info[iscomment]' id="allow_comment_1" {if:$data[iscomment] == 0}checked{/if} value="0">允许评论
+                            </label>
+                            <label>
+                                <input type="radio" name='info[iscomment]' id="allow_comment_0" {if:$data[iscomment] == 1}checked{/if} value="1">禁止评论
+                            </label>
+                            <span>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>责任编辑</b></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="switch_list cc">
+                                  <input type="text" name="info[author]" value="{$data[author]}" maxlength="20">
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>来源</b></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="switch_list cc">
+                                  <input type='text' name='info[source]' value='{$data[source]}' placeholder='请输入内容来源'>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>排序值</b></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="switch_list cc">
+                                  <input type="text" name="info[listorder]" value="{$data[listorder]}">
+                                  <div class="gray">请输入非负整数的排序值</div>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>浏览量</b></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="switch_list cc">
+                                  <input type="text" name="views" value="{$data[views]}">
+                                  <div class="gray">请输入非负整数的浏览量</div>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>URL别名</b></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="switch_list cc">
+                                  <input type='text' name='info[alias]' value='{$data[alias]}' placeholder='请输入URL别名'>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="h_a">
+                信息发布
+            </div>
+            <div class="table_full">
+            	<input type="hidden" name="info[id]" value="{$data[id]}">
+                <table width="100%">
+                    <tr>
+                        <th width="80">分类</th>
+                        <td>
+                            {$cidhtml}<span class="red">*</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>标题</th>
+                        <td>
+                            <input type="text" name="info[title]" id="title" value="{$data[title]}" style='width:280px' placeholder="请输入标题" />
+                            <span class="red">*</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>标签</th>
+                        <td>
+                            <input type='text' name='info[tags]' id='tags' value='{$data[tags]}' style='width:280px'
+                            class='input' placeholder='请输入Tags标签'>
+                            <span class="gray">多个标签之间用空格或者“,”隔开，最多5个标签</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>摘要</th>
+                        <td>
+                            <textarea name='info[intro]' style='width:98%;height:46px;'>{$data[intro]}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>SEO标题</th>
+                        <td>
+                            <input type='text' name='info[seo_title]' value='{$data[seo_title]}' style='width:280px' placeholder='请输入SEO标题'>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>SEO关键词</th>
+                        <td>
+                            <input type='text' name='info[seo_keywords]' value='{$data[seo_keywords]}' style='width:280px' placeholder='请输入SEO关键词'>
+                            <span class="gray">多个关键词之间用“,”隔开</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>推荐位 </th>
+                        <td>
+                        	<label><input class="mr3" name="info[flags]" type="radio" value="0"{if:$data[flags]==0} checked{/if}>暂无</label>
+                            <label><input class="mr3" name="info[flags]" type="radio" value="1"{if:$data[flags]==1} checked{/if}>推荐</label>
+							<label><input class="mr3" name="info[flags]" type="radio" value="2"{if:$data[flags]==2} checked{/if}>热点</label>
+							<label><input class="mr3" name="info[flags]" type="radio" value="3"{if:$data[flags]==3} checked{/if}>头条</label>
+							<label><input class="mr3" name="info[flags]" type="radio" value="4"{if:$data[flags]==4} checked{/if}>精选</label>
+							<label><input class="mr3" name="info[flags]" type="radio" value="5"{if:$data[flags]==5} checked{/if}>幻灯</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>内容</th>
+                        <td>
+                            <textarea name='data_info[content]' id='content' style="width:99%;">{$data[content]}</textarea>
+                        	<div class="addition">
+								<label title="远程抓取图片比较消耗服务器资源，影响发布速度">
+									<input name="isremote" type="checkbox" value="1"> 远程图片本地化
+								</label>
+							</div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="btn_wrap" style="text-align: center;">
+            <div class="btn_wrap_pd">
+                <button class="btn btn_submit J_ajax_submit_btn1" type="submit"> 提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<iframe name="maybe_upifr" style="display:none"></iframe>
+<form id="maybe_pic_upform" target="maybe_upifr" method="post" enctype="multipart/form-data" action="index.php?u=attach-upload_image&type=pic{$edit_cid_id}">
+	<input id="maybe_pic_upfile" type="file" name="upfile" accept="image/jpg,image/jpeg,image/png,image/gif" />
+</form>
+<form id="maybe_img_upform" target="maybe_upifr" method="post" enctype="multipart/form-data" action="index.php?u=attach-upload_image&type=img{$edit_cid_id}">
+	<input id="maybe_img_upfile" type="file" name="upfile" accept="image/jpg,image/jpeg,image/png,image/gif" multiple="multiple" />
+</form>
+<script type="text/javascript">
+
+//自动保存
+var action = "{$_GET['action']}";
+window.autoSave = function() {
+	if(action != "add") return;
+	var data = $("#myform").serialize();
+	maybeAjax.post("index.php?u=article-auto_save-ajax-1", data, function(html) { });
+};
+//触发自动保存
+$("#myform input, #myform textarea, #myform select").change(autoSave);
+
+//传统上传缩略图
+document.getElementById("maybe_pic_upfile").onchange = function() {
+	document.getElementById("maybe_pic_upform").submit();
+};
+
+// 设置显示缩略图 (iframe使用)
+function setDisplayPic(path, thumb) {
+	$("#maybe_pic_val").val(thumb);
+	$("#maybe_pic_img").attr("src", "../"+thumb);
+	autoSave();
+}
+
+// 定位缩略图上传按钮
+function setPicBut() {
+	var obj = $("#maybe_pic_but"),
+		p = obj.position(),
+		w = obj.outerWidth(true),
+		h = obj.outerHeight(true),
+		r = $(document).width() - w - p.left;
+	$("#maybe_pic_upfile").hover(function(){
+		obj.addClass("but_on");
+	}, function(){
+		obj.removeClass("but_on");
+	}).show().css({"position":"absolute", "top":p.top, "right":r, "width":w, "height":h});
+}
+
+setPicBut();
+	
+    oInitJson = {
+            tiptype:3
+        };
+        var oVdForm = $("#myform").Validform(oInitJson);
+        oVdForm.addRule([
+			{
+			    ele:"#cid",
+			    datatype:"/^[0-9]*[1-9][0-9]*$/",
+			    altercss:"tipColor",
+			    nullmsg:"请选择分类",
+			    errormsg:"请选择分类"
+			},    
+            {
+                ele:"#title",
+                datatype:"*",
+                altercss:"tipColor",
+                nullmsg:"请输入标题",
+                errormsg:"标题不能为空"
+            }
+        ]);
+</script>
+
+{hook:admin_content_add_after.htm}
+
+{inc:footer.htm}

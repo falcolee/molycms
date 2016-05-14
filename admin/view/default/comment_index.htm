@@ -1,0 +1,111 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=comment-index">评论列表</a></li>
+      </ul>
+</div>
+<form method="post" id="myform" action="index.php?u=comment-index">
+	<div class="h_a">搜索</div>
+	<div class="search_type cc mb10">
+	    <div class="mb10"> 
+		    <span class="mr20">
+		    评论类型：
+		    <select name="mid" id="mid">
+		        {loop:$mod_name $v $k}<option value="{$k}"{if:$mid == $k} selected="selected"{/if}>{$v}评论</option>{/loop}
+		     </select>
+		      </span> 
+	      </div>
+	</div>
+	<div class="table_list">
+		<table cellspacing="0" width="100%">
+			<thead>
+				<tr>
+			        <td align="center" style="width:50px">评论ID</td>
+			        <td align="center" style="width:100px">评论者</td>
+			        <td>评论内容</td>
+			        <td align='center'>内容</td>
+			        <td align="center" style="width:150px">评论时间</td>
+			        <td align="center" style="width:100px">操作</td>
+		    	</tr>
+			</thead>
+			<tbody>
+			{if:empty($comment_arr)}
+	    		<tr class="no_data"><td colspan="6">暂无数据</td></tr>
+	    	{else}
+	    		{loop:$comment_arr $v}
+				<tr>
+					<td align="center">{$v[commentid]}</td>
+					<td align="center">{$v[author]}<br>({$v[ip]})</td>
+					<td>{$v[content]}</td>
+					<td align='center'><a href="{$v[url]}" target="_blank">{$v[title]}</a></td>
+					<td align='center'>{$v[date]}</td>
+					<td align="center"><a class="btn" href="javascript:edit({$v[commentid]});">编辑</a> 
+					<a class="btn" href="javascript:del({$v[id]},{$v[commentid]});">删除</a></td>
+				</tr>
+				{/loop}
+	    	{/if}
+			</tbody>
+		</table>
+	</div>
+	<div class="page_nav mt5">
+		<span>共 <font color="red">{$total}</font> 条</span>{$pages}
+	</div>
+</form>
+
+<script id="edit_comment" type="text/html">
+	<div class="table_full">
+	<table width="100%">
+		<tr>
+			<th width="80">昵称</th>
+			<td><input id="c_author" name="author" type="text" class="input" /></td>
+		</tr>
+		<tr>
+			<th>评论</th>
+			<td><textarea id="c_content" name="content" class="inp w3" style="width:98%"></textarea></td>
+		</tr>
+	</table>
+	</div>
+</script>
+
+<script type="text/javascript">
+var _mid = $("#mid").val();
+$("#mid").change(function(){
+	var mid = $(this).val();
+	location.href = 'index.php?u=comment-index-mid-'+ mid;
+});
+
+//编辑
+function edit(commentid) {
+	$.maybeDialog({content:$("#edit_comment").html(), resizable:true, open:true, modal:true, width:900, height:280, minW:500, minH:280});
+
+	//读取
+	maybeAjax.postd("index.php?u=comment-get_json-ajax-1", {"mid":_mid, "commentid":commentid}, function(data){
+		var json = toJson(data);
+		$("#c_author").val(json.author);
+		$("#c_content").val(json.content);
+		maybeAjax.remove();
+	});
+
+	//提交
+	$("#maybedialog_button>.ok").click(function(){
+		var author = $("#c_author").val();
+		var content = $("#c_content").val();
+		maybeAjax.postd("index.php?u=comment-edit-ajax-1", {"mid":_mid, "commentid":commentid, "author":author, "content":content}, function(data){
+			maybeAjax.alert(data);
+			$.maybeDialog("remove");
+			if(window.maybeData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+
+//删除
+function del(id, commentid) {
+	maybeAjax.confirm("删除不可恢复，确定删除？", function(){
+		maybeAjax.postd("index.php?u=comment-del-ajax-1", {"mid":_mid, "id":id, "commentid":commentid}, function(data){
+			maybeAjax.alert(data);
+			if(window.maybeData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+</script>
+{inc:footer.htm}

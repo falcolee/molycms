@@ -1,0 +1,59 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=types-index">模块列表</a></li>
+        <li><a href="index.php?u=types-add">添加模块</a></li>
+      </ul>
+</div>
+
+	<div class="table_list">
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+                            <td width=50  align="left">ID</td>
+                            <td width=200 align=left>标题</td>
+                            <td width=100 align="left">类型</td>
+                            <td align="left">备注</td>
+                            <td width=50 align="left">状态</td>
+                            <td width=50  align="left">操作</td>
+	    	</tr>
+		</thead>
+		<tbody>
+			
+	    	{if:empty($list)}
+	    		<tr class="no_data"><td colspan="5">暂无数据</td></tr>
+	    	{else}
+		    	{loop:$list $v}
+		            <tr>
+		            	<td>{$v[id]}</td>
+			        	<td>{$v[title]}</td>
+			        	<td>{if:$v[class] =='link'}友情链接{elseif:$v[class] =='slide'}幻灯分类{elseif:$v[class] =='navigation'}导航分类{/if}</td>
+			        	<td>
+                                            {$v[remark]}
+			        	</td>
+                                        <td>{if:$v[status]}启用{else}禁用{/if}</td>
+			        	<td align="center">
+							<a class="btn" href="index.php?u=types-edit-id-{$v[id]}">编辑</a>
+							<a class="btn" href="javascript:del({$v[id]});">删除</a>
+						</td>
+		        	</tr>
+	        	{/loop}
+        	{/if}
+    	</tbody>
+	</table>
+	</div>
+	<div class="page_nav">
+		<span>共 <font color="red">{$total}</font> 条</span>{$pages}
+	</div>
+<script type="text/javascript">
+//删除
+function del(id) {
+	maybeAjax.confirm("删除不可恢复，确定删除？", function(){
+		maybeAjax.postd("index.php?u=types-del-ajax-1", {"id":id}, function(data){
+			maybeAjax.alert(data);
+			if(window.maybeData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+</script>
+{inc:footer.htm}

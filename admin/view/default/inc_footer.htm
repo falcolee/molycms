@@ -1,0 +1,20 @@
+	</div>
+<script type="text/javascript">
+//全选与全不选
+function selectall(name,obj) {
+	if ($(obj).is(':checked')) {
+		$("input[name='"+name+"']").each(function() {
+			$(this).prop('checked', true);
+		});
+	} else {
+		$("input[name='"+name+"']").each(function() {
+			$(this).prop('checked', false);
+		});
+	}
+}
+//加入默认样式
+$(":text").addClass('input');
+$(":password").addClass('input');
+</script>
+</body>
+</html>

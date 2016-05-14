@@ -1,0 +1,61 @@
+{inc:header.htm}
+	<!--搜索框开始-->
+	<div class="t10">
+		<form id="search_form2" method="get" action="{$moly[webdir]}index.php">
+			<input type="hidden" name="u" value="search-index" />
+			<select name="mid" class="s_set">
+				{loop:$moly[mod_name] $v $k}<option value="{$k}"{if:isset($_GET['mid']) && $_GET['mid']==$k} selected="selected"{/if}>{$v}</option>{/loop}
+			</select>
+			<input type="text" name="keyword" value="{$keyword}" x-webkit-speech="" style="width:328px;height:18px" />
+			<input type="submit" value="搜索" style="padding:3px 15px" />
+		</form>
+	</div>
+	<!--搜索框结束-->
+
+	<!--两列开始-->
+	<div class="cont cf">
+		<div class="m_l">
+			{block:global_search pagenum="20" maxcount="20000"}
+			<div class="b1_top">
+				<div class="b1_cont cf">
+					{if:empty($gdata['list'])}
+					抱歉，未找到和 "<em>{$keyword}</em>"相关的内容。
+					{else}
+						{if:isset($_GET['mid']) && $_GET['mid']==3}
+						<div class="pro_list">
+							<ul class="cf">
+								{loop:$gdata[list] $v}<li><a href="{$v[url]}" title="{$v[title]}" target="_blank"><img src="{$v[pic]}" /><u>{$v[subject]}</u></a></li>{/loop}
+							</ul>
+							<div class="pages cf"><span>共 <font color="red">{$gdata[total]}</font> 篇</span>{$gdata[pages]}</div>
+						</div>
+						{elseif:isset($_GET['mid']) && $_GET['mid']==4}
+						<div class="pho_list">
+							<ul class="cf">
+								{loop:$gdata[list] $v}<li><a href="{$v[url]}" title="{$v[title]}" target="_blank"><img src="{$v[pic]}" /><u>{$v[subject]}</u></a></li>{/loop}
+							</ul>
+							<div class="pages cf"><span>共 <font color="red">{$gdata[total]}</font> 篇</span>{$gdata[pages]}</div>
+						</div>
+						{else}
+						<div class="art_list">
+							{loop:$gdata[list] $v}
+							<dl>
+								<dt><b><a href="{$v[url]}" title="{$v[title]}" target="_blank">{$v[subject]}</a></b><span>{$v[date]}</span></dt>
+								<dd>{$v[intro]}</dd>
+							</dl>
+							{/loop}
+							<div class="pages cf"><span>共 <font color="red">{$gdata[total]}</font> 篇</span>{$gdata[pages]}</div>
+						</div>
+						{/if}
+					{/if}
+				</div>
+			</div>
+			{/block}
+		</div>
+
+		<div class="m_r">
+			{inc:right.htm}
+		</div>
+	</div>
+	<!--两列结束-->
+
+{inc:footer.htm}

@@ -1,0 +1,62 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=guestbook-index">留言列表</a></li>
+        <li><a class="J_ajax_del" href="index.php?u=guestbook-delbatch-ajax-1">删除一个月前的留言</a></li>
+      </ul>
+</div>
+<form method="post" action="index.php?u=guestbook-index">
+	<div class="table_list">
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+		        <td style="width:30px">ID</td>
+		        <td style="width:100px">会员留言</td>
+		        <td>留言标题</td>
+		        <td style="width:100px">状态</td>
+		        <td style="width:150px">留言时间</td>
+		        <td style="width:150px">IP</td>
+		        <td style="width:100px">操作</td>
+	    	</tr>
+		</thead>
+		<tbody>
+			
+	    	{if:empty($list)}
+	    		<tr class="no_data"><td colspan="7">暂无数据</td></tr>
+	    	{else}
+		    	{loop:$list $v}
+		            <tr>
+		            	<td>{$v[id]}</td>
+		            	<td>{if:$v[uid]}<span class="green">是/UID[{$v[uid]}]</span>{else}<span class="red">否</span>{/if}</td>
+			        	<td>{$v[title]}</td>
+			        	<td>{if:$v[status]}<span class="green">已读</span>{else}<span class="red">未读</span>{/if}</td>
+			        	<td>{php} echo date('Y-m-d H:i:s', $v['dateline']);{/php}</td>
+			        	<td>
+			        		{php} echo long2ip($v['ip']);{/php}
+			        	</td>
+			        	<td>
+							<a class="btn" href="index.php?u=guestbook-view-id-{$v[id]}">查看</a>
+							<a class="btn" href="javascript:del({$v[id]});">删除</a>
+						</td>
+		        	</tr>
+	        	{/loop}
+        	{/if}
+    	</tbody>
+	</table>
+	</div>
+	<div class="page_nav">
+		<span>共 <font color="red">{$total}</font> 条</span>{$pages}
+	</div>
+</form>
+<script type="text/javascript">
+//删除
+function del(id) {
+	maybeAjax.confirm("删除不可恢复，确定删除？", function(){
+		maybeAjax.postd("index.php?u=guestbook-del-ajax-1", {"id":id}, function(data){
+			maybeAjax.alert(data);
+			if(window.maybeData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+</script>
+{inc:footer.htm}

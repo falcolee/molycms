@@ -1,0 +1,42 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=user_group-index">用户组管理</a></li>
+      </ul>
+</div>
+<form method="post" action="index.php?u=user_group-index">
+	<div class="table_list">
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+		        <td align="center" style="width:50px">分组ID</td>
+		        <td >组名</td>
+		        <td align="center" style="width:150px">所属模块</td>
+		        <td align="center" style="width:100px">是否系统内置</td>
+		        <td align="center" style="width:150px">操作</td>
+	    	</tr>
+		</thead>
+		<tbody>
+			
+	    	{if:empty($list)}
+	    		<tr class="no_data"><td colspan="4">暂无数据</td></tr>
+	    	{else}
+		    	{loop:$list $v}
+		            <tr>
+		            	<td align="center">{$v[groupid]}</td>
+			        	<td>{$v[groupname]}</td>
+			        	<td align="center">{if:$v[isadmin] == 1}<span class="green">后台模块</span>{else}<span class="red">前台模块</span>{/if}</td>
+						
+			        	<td align="center">{if:$v[system] == 1}<span class="green">是</span>{else}<span class="red">否</span>{/if}</td>
+						<td align="center">
+							-
+						</td>
+		        	</tr>
+	        	{/loop}
+        	{/if}
+    	</tbody>
+	</table>
+	</div>
+</form>
+
+{inc:footer.htm}

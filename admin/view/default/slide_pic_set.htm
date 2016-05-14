@@ -1,0 +1,112 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li><a href="index.php?u=slide-index">幻灯片列表</a></li>
+        <li><a href="index.php?u=slide-add">添加幻灯片</a></li>
+        <li class="current"><a href="index.php?u=slide-addpic-id-{$data[slide_id]}">添加幻灯片图片</a></li>
+      </ul>
+</div>
+
+
+<form class="check_form" action="index.php?u=slide-{$_GET['action']}" method="post">
+	<input type="hidden" name="id" value="{$data[id]}">
+	<input type="hidden" name="info[slide_id]" value="{$data[slide_id]}">
+	<div class="h_a">基本属性</div>
+	<div class="table_full">
+		<table width="100%">
+			<tbody>
+				<tr>
+		            <th width="80">图片标题</th>
+		            <td><input type="text" id="title" value="{$data[title]}" name="info[title]" maxlength="50"></td>
+		        </tr>
+		        <tr>
+		            <th>图片链接</th>
+		            <td><input type="text" size="50" id="link" value="{$data[link]}" name="info[link]"><span class="gray">示例：http://www.maybecms.com</span></td>
+		        </tr>
+		        <tr>
+		            <th>状态</th>
+		            <td>
+		            	<label>
+                            <input type="radio" name="info[status]" value="1" {if:$data[status] == 1}checked{/if}>
+                            <span>显示</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="info[status]" value="0" {if:$data[status] == 0}checked{/if}>
+                            <span>隐藏</span>
+                        </label>
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>图片</th>
+		            <td>
+		            	<input type="text" size="70" id="pic" value="{$data[pic]}" name="info[pic]"> <a class="btn" id="maybe_pic_but" href="javascript:void(0);">上传图片</a>
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>排序值</th>
+		            <td><input type="text" size="3" value="{$data[listorder]}" name="info[listorder]"></td>
+		        </tr>
+		        <tr>
+		            <th>描述</th>
+		            <td>
+						<textarea name="info[description]" style="width:98%;">{$data[description]}</textarea>
+		            </td>
+		        </tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="btn_wrap">
+    	<div class="btn_wrap_pd">             
+        	<button type="submit" class="btn btn_submit mr10">提交</button>
+      	</div>
+    </div>
+	
+</form>
+
+<iframe name="maybe_upifr" style="display:none"></iframe>
+<form id="maybe_pic_upform" target="maybe_upifr" method="post" enctype="multipart/form-data" action="index.php?u=attach-upload_slide">
+	<input id="maybe_pic_upfile" type="file" name="upfile" accept="image/jpg,image/jpeg,image/png,image/gif" />
+</form>
+
+<script type="text/javascript">
+//传统上传图
+document.getElementById("maybe_pic_upfile").onchange = function() {
+	document.getElementById("maybe_pic_upform").submit();
+};
+//定位图上传按钮
+function setPicBut(id) {
+	var obj = $("#maybe_pic_but"),
+		p = obj.position(),
+		w = obj.outerWidth(true),
+		h = obj.outerHeight(true),
+		r = $(document).width() - w - p.left;
+	$("#maybe_pic_upfile").hover(function(){
+		obj.addClass("but_on");
+	}, function(){
+		obj.removeClass("but_on");
+	}).show().css({"position":"absolute", "top":p.top, "right":r, "width":w, "height":h});
+}
+
+setPicBut();
+
+//设置显示图 片(iframe使用)
+function setDisplayPic(path, id) {
+	$("#pic").val(path);
+}
+
+	oInitJson = {
+        tiptype:3
+    };
+    var oVdForm = $(".check_form").Validform(oInitJson);
+    oVdForm.addRule([
+        {
+            ele:"#title",
+            datatype:"*",
+            altercss:"tipColor",
+            nullmsg:"请输入图片标题",
+            errormsg:"图片标题不能为空"
+        }
+    ]);
+
+</script>
+{inc:footer.htm}

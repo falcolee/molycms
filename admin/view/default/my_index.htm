@@ -1,0 +1,33 @@
+{inc:header.htm}
+			<div class="clearfix">
+				<div class="mt10">
+				    <h1><b>我的信息:</b></h1>
+				    <table class="mt10 default">
+				        <tbody>
+				        <tr>
+					        <th class="caption">登录帐号：</th> <td>{$_user[username]}（{$_group[groupname]}）</td>
+					        <th class="caption">内容条数：</th> <td>{$_user[contents]}</td>
+				        </tr>
+				        <tr>
+					        <th class="caption">评论条数：</th> <td>{$_user[comments]}</td>
+					        <th class="caption">登陆次数：</th> <td>{$_user[logins]}</td>
+				        </tr>
+				        <tr>
+					        <th class="caption">最后登录时间：</th> <td>{$_user[logindate]}</td>
+					        <th class="caption">最后登录IP：</th> <td>{$_user[loginip]}</td>
+				        </tr>
+				        <tr>
+					        <th class="caption">上次登录时间：</th> <td>{$_user[lastdate]}</td>
+					        <th class="caption">上次登录IP：</th> <td>{$_user[lastip]}</td>
+				        </tr>
+				        <tr>
+					        <th class="caption">注册时间：</th> <td>{$_user[regdate]}</td>
+					        <th class="caption">注册IP：</th> <td>{$_user[regip]}</td>
+				        </tr>
+				    	</tbody>
+				    </table>
+				</div>
+				
+			</div>
+
+{inc:footer.htm}

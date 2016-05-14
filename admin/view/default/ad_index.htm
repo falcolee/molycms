@@ -1,0 +1,62 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=ad-index">广告列表</a></li>
+        <li><a href="index.php?u=ad-add">添加广告</a></li>
+      </ul>
+</div>
+
+	<div class="table_list">
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+		        <td style="width:30px">ID</td>
+		        <td>广告名称</td>
+		        <td align="center" width="100">时间限制</td>
+		        <td align="center" width="150">开始时间</td>
+		        <td align="center" width="150">结束时间</td>
+		        <td align="center" style="width:100px">操作</td>
+	    	</tr>
+		</thead>
+		<tbody>
+			
+	    	{if:empty($list)}
+	    		<tr class="no_data"><td colspan="6">暂无数据</td></tr>
+	    	{else}
+		    	{loop:$list $v}
+		            <tr>
+		            	<td>{$v[id]}</td>
+			        	<td>{$v[adname]}</td>
+			        	<td align='center'>{if:$v[timeset] == 1}<span class="green">是</span>{else}<span class="red">否</span>{/if}</td>
+			        	<td align="center">
+			        		{php} echo date('Y-m-d H:i:s', $v['starttime']);{/php}
+			        	</td>
+			        	<td align="center">
+			        		{php} echo date('Y-m-d H:i:s', $v['endtime']);{/php}
+			        	</td>
+			        	<td align="center">
+							<a class="btn" href="index.php?u=ad-edit-id-{$v[id]}">编辑</a>
+							<a class="btn" href="javascript:del({$v[id]});">删除</a>
+						</td>
+		        	</tr>
+	        	{/loop}
+        	{/if}
+    	</tbody>
+	</table>
+	</div>
+	<div class="page_nav">
+		<span>共 <font color="red">{$total}</font> 条</span>{$pages}
+	</div>
+
+<script type="text/javascript">
+//删除
+function del(id) {
+	maybeAjax.confirm("删除不可恢复，确定删除？", function(){
+		maybeAjax.postd("index.php?u=ad-del-ajax-1", {"id":id}, function(data){
+			maybeAjax.alert(data);
+			if(window.maybeData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+</script>
+{inc:footer.htm}

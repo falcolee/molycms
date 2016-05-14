@@ -1,0 +1,70 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=theme-index">主题列表</a></li>
+        <li><a href="javascript:alert('暂未开放')">在线获取</a></li>
+      </ul>
+</div>
+<div class="design_page">
+	<ul class="cc">
+		{loop:$themes $v $k}
+			{php} $enable = ($k == $theme); {/php}
+			<li  class="thm{if:$enable} thmon{/if}">
+	        <div class="img">
+	        	<img width="234" height="162" alt="{$k}" src="../{$core}/view/{$k}/show.jpg">
+	        </div>
+	        <div title="default" class="title"><b>{$v[name]}({$k})</b></div>
+	        <p class="author">作者: <a target="_blank" href="{$v[authorurl]}">{$v[author]}</a></p>
+	        <div class="ft gsm" theme="{$k}">
+	        	{if:$enable}<b>当前使用</b>{else}<a class="enable but2">启用</a><a class="del but2">删除</a>{/if}
+	        </div>
+	      </li>
+		{/loop}
+	</ul>
+</div>
+
+
+<script type="text/javascript">
+function load() {
+	$(".gsm>a").attr("href","javascript:;");
+
+	$(".thm").off("hover").hover(function(){
+		$(this).addClass("thm_x");
+	}, function(){
+		$(this).removeClass("thm_x");
+	});
+
+	$(".to").off("hover").hover(function(){
+		$(this).children(".tu").hide();
+		$(this).children(".full").show();
+	},function(){
+		$(this).children(".tu").show();
+		$(this).children(".full").hide();
+	});
+	//启用
+	$(".enable").off("click").click(function(){ enable($(this).parent().attr("theme")); });
+
+	//删除
+	$(".del").off("click").click(function(){
+		var theme = $(this).parent().attr("theme");
+		maybeAjax.confirm("删除不可恢复，确定删除“<font color='red'>"+$(this).parent().siblings(".title").html()+"</font>”？", function(){
+			maybeAjax.postd("index.php?u=theme-delete-ajax-1", {"theme" : theme}, function(data){
+				maybeAjax.alert(data);
+				if(window.maybeData.err==0) setTimeout(function(){window.location.reload();}, 1000);
+			});
+		});
+	});
+}
+
+load();
+
+
+// 启用
+function enable(theme) {
+	maybeAjax.postd("index.php?u=theme-enable-ajax-1", {"theme" : theme}, function(data){
+		maybeAjax.alert(data);
+		if(window.maybeData.err==0) setTimeout(function(){window.location.reload();}, 1000);
+	});
+}
+</script>
+{inc:footer.htm}

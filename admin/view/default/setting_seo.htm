@@ -1,0 +1,51 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="javascript:;">SEO设置</a></li>
+    </ul>
+</div>
+<style type="text/css">
+textarea{height:100px;width:480px;}
+</style>	
+<form action="index.php?u=setting-seo-ajax-1" method="post">
+	<div class="h_a">基本属性</div>
+	<div class="table_full">
+		<table width="100%">
+			<tbody>
+				<tr>
+		            <th width="80">SEO标题</th>
+		            <td>
+		            	{$input[seo_title]}<span class="gray">（建议不要超过30个汉字）</span>
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>SEO关键词</th>
+		            <td>
+		            	{$input[seo_keywords]}<span class="gray">（建议不要超过30个汉字）</span>
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>SEO描述</th>
+		            <td>
+		            	{$input[seo_description]}<span class="gray">（建议不要超过100个汉字）</span>
+		            </td>
+		        </tr>
+	       	</tbody>
+       	</table>
+   </div>
+   <div class="btn_wrap">
+   		<div class="btn_wrap_pd">             
+       		<button type="submit" class="btn btn_submit mr10">保存</button>
+     	</div>
+   </div>
+	
+</form>
+
+<script type="text/javascript">
+maybeAjax.submit("form:first", function(data){
+	maybeAjax.alert(data);
+	if(window.maybeData.err==0) setTimeout("window.location.reload()",1000);
+});
+</script>
+{inc:footer.htm}
+

@@ -1,0 +1,100 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=setting-email">邮箱设置</a></li>
+    </ul>
+</div>
+
+<form name="myform" id="myform" action="index.php?u=setting-email-ajax-1" method="post" class="J_ajaxForms">
+<div class="h_a">基本属性</div>
+<div class="table_full">
+	<table width="100%">
+		<tbody>
+			<tr>
+	            <th width="80">邮件发送方式</th>
+	            <td>
+	            	<label>
+                        <input type="radio" name='sendtype' {if:$data[sendtype] == 0}checked{/if} value="0">PHP内置mail 函数
+                    </label>
+                    <label>
+                        <input type="radio" name='sendtype' {if:$data[sendtype] == 1}checked{/if} value="1">SMTP方式
+                    </label>
+	            </td>
+	        </tr>
+		</tbody>
+	</table>
+</div>
+
+
+<div class="table_list">
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<td width="50">删除</td>
+		        <td>邮箱</td>
+		        <td>SMTP主机</td>
+		        <td>端口</td>
+		        <td>账号</td>
+		        <td>密码</td>
+	    	</tr>
+		</thead>
+		<tbody>
+	    	{if:empty($data[smtplist])}
+	    		<tr class="no_data"><td colspan="6">暂无数据</td></tr>
+	    	{else}
+		    	{loop:$data[smtplist] $mail $k}
+		            <tr>
+		            	<td><input type="checkbox" name="delete[]" value="{$k}" size="32" /></td>
+		            	<td><input type="text" name="email[{$k}]" value="{$mail[email]}"/></td>
+			        	<td><input type="text" name="host[{$k}]" value="{$mail[host]}" /></td>
+			        	<td><input type="text" name="port[{$k}]" value="{$mail[port]}" size="4" /></td>
+			        	<td><input type="text" name="user[{$k}]" value="{$mail[user]}"/></td>
+			        	<td><input type="text" name="pass[{$k}]" value="{$mail[pass]}" /></td>
+		        	</tr>
+	        	{/loop}
+        	{/if}
+        	<tr>
+        		<td></td>
+				<td><input type="text" name="email[]" value=""/></td>
+				<td><input type="text" name="host[]" value=""/></td>
+				<td><input type="text" name="port[]" value="25" size="4" /></td>
+				<td><input type="text" name="user[]" value=""/></td>
+				<td><input type="text" name="pass[]" value=""/></td>
+			</tr>
+    	</tbody>
+	</table>
+	</div>	
+	<div class="btn_wrap">
+    	<div class="btn_wrap_pd">             
+        	<button type="submit" class="btn btn_submit mr10">提交</button>
+      	</div>
+    </div>
+</form>
+<div class="h_a">邮箱设置测试</div>
+<div class="table_full">
+	<table width="100%">
+		<tbody>
+			<tr>
+	            <th width="80">收件箱</th>
+	            <td>
+	            	<input type="text" id="email" value="" name="sendemail" size="30">
+	            	<a class="btn" href="javascript:sendemail();">发送</a>
+	            </td>
+	        </tr>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript">
+maybeAjax.submit("form:first", function(data){
+	maybeAjax.alert(data);
+	if(window.maybeData.err==0) setTimeout("window.location.reload()",1000);
+});
+//发送邮件
+function sendemail(){
+	var email = $("#email").val();
+	maybeAjax.postd("index.php?u=setting-testemail-ajax-1", {"email":email}, function(data){
+		maybeAjax.alert(data);
+	});
+}
+</script>
+{inc:footer.htm}

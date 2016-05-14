@@ -1,0 +1,54 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=database-index">数据库管理</a></li>
+        <li><a href="index.php?u=database-backup">数据库备份</a></li>
+        <li><a href="index.php?u=database-recove">备份列表</a></li>
+    </ul>
+</div>
+<form method="post" id="myform" action="index.php?u=database-index">
+	<div class="table_list">
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+		        <td style="width:30px"></td>
+		        <td style="width:100px">表名</td>
+		        <td align="center">类型</td>
+		        <td align="center" style="width:100px">字符集</td>
+		        <td align="center" style="width:150px">记录数</td>
+		        <td align="center" style="width:150px">碎片</td>
+		        <td align="center" style="width:100px">大小</td>
+	    	</tr>
+		</thead>
+		<tbody>
+			
+	    	{if:empty($list)}
+	    		<tr class="no_data"><td colspan="7">暂无数据</td></tr>
+	    	{else}
+		    	{loop:$list $v}
+		            <tr>
+		            	<td><input type="checkbox" value="{$v[Name]}" name="tables[]" class="inputcheckbox "></td>
+		            	<td align="left">{$v[Name]}</td>
+				        <td align="center">{$v[Engine]}</td>
+				        <td align="center">{$v[Collation]}</td>
+				        <td align="center">{$v[Rows]}</td>       
+				        <td align="center">{$v[Data_free]}</td>
+						<td align="center">{$v[Data_length]}</td>
+		        	</tr>
+	        	{/loop}
+        	{/if}
+    	</tbody>
+	</table>
+	</div>
+	<div class="position-bottom">
+			<label class="mr20"><input type="checkbox" onclick="selectall('tables[]',this);">全选</label> 
+			<input type="button" class="btn btn_submit" name="" value="修复" onclick="myform.action='index.php?u=database-docommand-do-REPAIR';$('#myform').submit();" >
+			<input type="button" class="btn btn_submit" name="" value="优化" onclick="myform.action='index.php?u=database-docommand-do-OPTIMIZE';$('#myform').submit();">
+			<input type="button" class="btn btn_submit" name="" value="检查" onclick="myform.action='index.php?u=database-docommand-do-CHECK';$('#myform').submit();">
+			<input type="button" class="btn btn_submit" name="" value="分析" onclick="myform.action='index.php?u=database-docommand-do-ANALYZE';$('#myform').submit();" >       
+			<input type="button" class="btn btn_submit" name="" value="结构" onclick="myform.action='index.php?u=database-docommand-do-SHOW';$('#myform').submit();">
+			<span style="float:right;color:#FB0000">数据库大小：{$totalSize}</span>
+    </div>
+</form>
+
+{inc:footer.htm}

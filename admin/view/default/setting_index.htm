@@ -1,0 +1,75 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="javascript:;">站点设置</a></li>
+    </ul>
+</div>
+<style type="text/css">
+textarea{height:80px;width:480px;}
+</style>
+	
+<form action="index.php?u=setting-index-ajax-1" method="post">
+	<div class="h_a">基本属性</div>
+	<div class="table_full">
+		<table width="100%">
+			<tbody>
+				<tr>
+		            <th width="80">站点标题</th>
+		            <td>
+		            	{$input[webname]}
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>站点域名</th>
+		            <td>
+		            	{$input[webdomain]}<span class="gray">（不能填写http://）</span>
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>安装目录</th>
+		            <td>
+		            	{$input[webdir]}
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>邮箱</th>
+		            <td>
+		            	{$input[webmail]}
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>统计代码</th>
+		            <td>
+		            	{$input[tongji]}
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>备案号</th>
+		            <td>
+		            	{$input[beian]}
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>网站底部信息</th>
+		            <td>
+		            	{$input[footer_info]}
+		            </td>
+		        </tr>
+	       	</tbody>
+       	</table>
+	</div>
+	<div class="btn_wrap">
+   		<div class="btn_wrap_pd">             
+       		<button type="submit" class="btn btn_submit mr10">保存</button>
+     	</div>
+   </div>
+</form>
+
+<script type="text/javascript">
+maybeAjax.submit("form:first", function(data){
+	maybeAjax.alert(data);
+	if(window.maybeData.err==0) setTimeout("window.location.reload()",1000);
+});
+</script>
+
+{inc:footer.htm}

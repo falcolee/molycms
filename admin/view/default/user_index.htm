@@ -1,0 +1,84 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=user-index">用户管理</a></li>
+        <li><a href="index.php?u=user-add">添加用户</a></li>
+      </ul>
+</div>
+<form method="post" action="index.php?u=user-index">
+	<div class="h_a">搜索</div>
+	<div class="search_type cc mb10">
+	    <div class="mb10">
+	    <span class="mr20">
+	    	用户组：<select name="groupid">
+				        <option {if:$condition['groupid'] == '*'}selected="selected"{/if} value="*">不限</option>
+				        {loop:$user_group_list $v}
+		            		<option {if:$condition['groupid'] == $v['groupid']}selected="selected"{/if} value="{$v[groupid]}">{$v[groupname]}</option>
+		            	{/loop}
+			      </select>
+		      用户名：<input type="text" placeholder="用户名" value="{$condition[username]}" size="10" name="username" class="length_2">
+		      <button class="btn">搜索</button>
+		</span>  
+	    </div>
+	</div>
+	<div class="table_list">
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+		        <td style="width:30px">UID</td>
+		        <td style="width:100px">用户名</td>
+		        <td style="width:120px">邮箱</td>
+		        <td>所属组</td>
+		        <td style="width:50px">状态</td>
+		        <td style="width:150px">注册时间</td>
+		        <td style="width:120px">注册IP</td>
+		        <td style="width:150px">最后登录时间</td>
+		        <td style="width:120px">最后登录IP</td>
+		        <td style="width:150px">操作</td>
+	    	</tr>
+		</thead>
+		<tbody>
+			
+	    	{if:empty($list)}
+	    		<tr class="no_data"><td colspan="10">暂无数据</td></tr>
+	    	{else}
+		    	{loop:$list $v}
+		            <tr>
+		            	<td>{$v[uid]}</td>
+			        	<td>{$v[username]}</td>
+			        	<td>{$v[email]}</td>
+			        	<td>{$v[groupname]}</td>
+			        	<td>{$v[status]}</td>
+			        	<td>{$v[regdate]}</td>
+			        	<td>{$v[regip]}</td>
+			        	<td>{$v[logindate]}</td>
+			        	<td>{$v[loginip]}</td>
+						<td>
+							{if:$v[groupid]>1}
+							<a class="btn" href="index.php?u=user-view-uid-{$v[uid]}">详情</a>
+							<a class="btn" href="index.php?u=user-edit-uid-{$v[uid]}">编辑</a>
+							<a class="btn" href="javascript:del({$v[uid]});">删除</a>
+							{/if}
+						</td>
+		        	</tr>
+	        	{/loop}
+        	{/if}
+    	</tbody>
+	</table>
+	</div>
+	<div class="page_nav">
+		<span>共 <font color="red">{$total}</font> 条</span>{$pages}
+	</div>
+</form>
+<script type="text/javascript">
+//删除
+function del(uid) {
+	maybeAjax.confirm("确定删除？将删除用户所有相关数据！", function(){
+		maybeAjax.postd("index.php?u=user-del-ajax-1", {"uid":uid}, function(data){
+			maybeAjax.alert(data);
+			if(window.maybeData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+</script>
+{inc:footer.htm}

@@ -1,0 +1,66 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li><a href="index.php?u=cates-dindex">分类模型列表</a></li>
+        <li class="current"><a href="index.php?u=cates-dlist-id-{$model_data['id']}">{$model_data['description']}</a></li>
+        <li><a href="index.php?u=cates-fadd-mid-{$model_data['id']}">添加字段</a></li>
+    </ul>
+</div>
+<form method="post" id="myform" action="index.php?u=cates-listorder">
+    <div class="table_list">
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+                <td width="40">排序值</td>
+                <td width=50  align="left">ID</td>
+                <td>字段标识</td>
+                            <td>字段名称</td>
+                            <td>字段类型</td>
+                            <td width=100  align="left">操作</td>
+	    	</tr>
+		</thead>
+		<tbody>
+			
+	    	{if:empty($list)}
+	    		<tr class="no_data"><td colspan="5">暂无数据</td></tr>
+	    	{else}
+		    	{loop:$list $v}
+		            <tr>
+                        <td><input name='listorder[{$v[id]}]' type='text' size='3' value="{$v[listorder]}"></td>
+                        <td>{$v[id]}</td>
+                        <td>{$v[name]}</td>
+                        <td>{$v[description]}</td>
+                        <td>{php}echo isset($fieldtypes['fieldtypes-k-'.$v['type']]) ?
+                            $fieldtypes['fieldtypes-k-'.$v['type']]['v'] : '未知';{/php}
+                        </td>
+                        <td align="center">
+							<a class="btn" href="index.php?u=cates-fedit-id-{$v[id]}">编辑</a>
+							<a class="btn" href="javascript:del({$v[id]});">删除</a>
+                                                        
+					</td>
+		        	</tr>
+	        	{/loop}
+        	{/if}
+    	</tbody>
+	</table>
+	</div>
+    <div class="position-bottom">
+        <button data-action="index.php?u=link-listorder" type="button" class="btn btn_submit J_ajax_submit_btn">排序
+        </button>
+    </div>
+</form>
+<div class="page_nav">
+		<span>共 <font color="red">{$total}</font> 条</span>{$pages}
+	</div>
+<script type="text/javascript">
+//删除
+function del(id) {
+	maybeAjax.confirm("删除不可恢复，确定删除？", function(){
+		maybeAjax.postd("index.php?u=cates-fdel-ajax-1", {"id":id}, function(data){
+			maybeAjax.alert(data);
+			if(window.maybeData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+</script>
+{inc:footer.htm}

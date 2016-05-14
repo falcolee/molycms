@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>{$moly[titles]}</title>
+	<meta name="keywords" content="{$moly[seo_keywords]}" />
+	<meta name="description" content="{$moly[seo_description]}" />
+	<link rel="shortcut icon" type="image/x-icon" href= "{$moly[webdir]}favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="{$moly[tpl]}css/style.css" />
+	{hook:header_css_after.htm}
+	<script type="text/javascript" src="{$moly[webdir]}static/js/jquery.js"></script>
+	
+</head>
+<body>
+<div class="wrap">
+	<!--头部开始-->
+	<div class="head cf">
+		<div class="logo"><a href="{$moly[weburl]}" title="{$moly[webname]}"><img src="{$moly[tpl]}images/logo.gif" alt="{$moly[webname]}" title="{$moly[webname]}" /></a></div>
+		<div class="search">
+			<form id="search_form" method="get" action="{$moly[webdir]}index.php">
+				<input type="hidden" name="u" value="search-index" />
+				<select name="mid" class="s_set">
+					{loop:$moly[mod_name] $v $k}<option value="{$k}"{if:isset($_GET['mid']) && $_GET['mid']==$k} selected="selected"{/if}>{$v}</option>{/loop}
+				</select>
+				<input class="s_tit" type="text" name="keyword" value="{$keyword}" />
+				<input class="s_sub" type="submit" value="" />
+			</form>
+		</div>
+	</div>
+	<!--头部结束-->
+
+	<!--导航开始-->
+	{block:navigate}
+	<div class="nav">
+		<div class="n_p"></div>
+		<div class="n_c">
+			<dl{if:$moly_var['topcid'] == -1} class="on"{/if}>
+				<dt><a href="{$moly[weburl]}" title="{$moly[webname]}">首页</a></dt>
+			</dl>
+			{loop:$data $v}
+			<dl{if:$moly_var['topcid'] == $v['cid']} class="on"{/if}>
+				<dt><a href="{$v[url]}" target="{$v[target]}" title="{$v[name]}">{$v[name]}</a></dt>
+			</dl>
+			{/loop}
+		</div>
+		<div class="n_n"></div>
+		<dl class="n_hover"></dl>
+	</div>
+	{/block}
+	<!--导航结束-->

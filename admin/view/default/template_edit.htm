@@ -1,0 +1,84 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=template-index">模板管理</a></li>
+        <li><a href="index.php?u=template-add">添加模板</a></li>
+      </ul>
+</div>
+<style type="text/css">
+ #codeTextarea{height: 500px; width: 98%;background: #fbfbfb;}
+.textAreaWithLines{font-family: courier;border: 1px solid #ddd;}
+.textAreaWithLines textarea,.textAreaWithLines div{border: 0px;font-size: 14px;}
+.lineObj{color: #666;}
+</style>
+<script type="text/javascript">
+var lineObjOffsetTop = 2;
+function createTextAreaWithLines(id)
+{
+   var el = document.createElement('div');
+   var ta = document.getElementById(id);
+   ta.parentNode.insertBefore(el,ta);
+   el.appendChild(ta);
+   el.className='textAreaWithLines';
+   el.style.width = (ta.offsetWidth + 30) + 'px';
+   ta.style.position = 'absolute';
+   ta.style.left = '30px';
+   el.style.height = (ta.offsetHeight + 2) + 'px';
+   el.style.overflow='hidden';
+   el.style.position = 'relative';
+   el.style.width = (ta.offsetWidth + 30) + 'px';
+   var lineObj = document.createElement('div');
+   lineObj.style.position = 'absolute';
+   lineObj.style.top = lineObjOffsetTop + 'px';
+   lineObj.style.left = '0px';
+   lineObj.style.width = '27px';
+   el.insertBefore(lineObj,ta);
+   lineObj.style.textAlign = 'right';
+   lineObj.className='lineObj';
+   var string = '';
+   for(var no=1;no<200;no++){
+      if(string.length>0)string = string + '<br>';
+      string = string + no;
+    }
+      ta.onkeydown = function() { positionLineObj(lineObj,ta); };
+      ta.onmousedown = function() { positionLineObj(lineObj,ta); };
+      ta.onscroll = function() { positionLineObj(lineObj,ta); };
+      ta.onblur = function() { positionLineObj(lineObj,ta); };
+      ta.onfocus = function() { positionLineObj(lineObj,ta); };
+      ta.onmouseover = function() { positionLineObj(lineObj,ta); };
+      lineObj.innerHTML = string;
+   }
+function positionLineObj(obj,ta)
+{
+      obj.style.top = (ta.scrollTop * -1 + lineObjOffsetTop) + 'px';   
+}
+</script>
+
+<form class="check_form" action="index.php?u=template-edit" method="post">
+	<div class="h_a">基本属性</div>
+	<div class="table_full">
+		<table width="100%">
+			<tbody>
+				<tr>
+		            <th width="80">文件名</th>
+		            <td><input type="text" value="{$data[filename]}" id="filename" name="info[filename]" maxlength="16"><span class="gray">请输入文件名,包括扩展名。文件名不能有汉字或中划线</span></td>
+		        </tr>
+		        <tr>
+		            <th>内容</th>
+		            <td><textarea id="codeTextarea" name="info[content]" style="width:95%; height:450px" class="valid">{$data[content]}</textarea></td>
+		        </tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="btn_wrap">
+    	<div class="btn_wrap_pd">             
+        	<button type="submit" class="btn btn_submit mr10">保存</button>
+      	</div>
+    </div>
+	
+</form>
+<script type="text/javascript">
+createTextAreaWithLines('codeTextarea');
+</script>
+
+{inc:footer.htm}

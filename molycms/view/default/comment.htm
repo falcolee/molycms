@@ -1,0 +1,65 @@
+{inc:header.htm}
+
+	<!--两列开始-->
+	<div class="cont cf">
+		<div class="m_l">
+			<div class="b2_tit b10">
+				<a href="{$moly[weburl]}">首页</a>
+				{loop:$moly_var[place] $v} &#187; <a href="{$v[url]}" title="{$v[name]}">{$v[name]}</a>{/loop}
+			</div>
+			{block:global_comment humandate="1"}
+			<div class="b1_top">
+				<div class="b1_cont art_show comment_show cf">
+					<h1><a href="{$gdata[url]}">评论：{$gdata[title]}</a></h1>
+					<div class="content">
+						<p>{$gdata[intro]} [<a href="{$gdata[url]}" style="color:red">更多>></a>]</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="t10">
+				<div class="b2_tit">
+					<b>网友评论</b> （<font color="red">{$gdata[comments]}</font> 条评论）
+				</div>
+				<div class="b2_cont comment">
+					{loop:$gdata[list] $v}
+					<div class="li">
+						<div class="avatar"><img src="{$tw[tpl]}img/avatar.png" /></div>
+						<div class="post_body">
+							<div class="post_header"><b>{$v[author]} ({$v[ip]})</b> {$v[date]}</div>
+							<div class="post_message">{$v[content]}</div>
+						</div>
+					</div>
+					{/loop}
+					<div class="pages cf">{if:$gdata[comments]}<span>共 <font color="red">{$gdata[comments]}</font> 条评论</span>{/if}{$gdata[pages]}</div>
+				</div>
+			</div>
+
+			<div class="t10">
+				<div class="b2_tit">
+					<b>发表评论</b>
+				</div>
+				<div class="b2_cont comment_form cf">
+					<form id="ctf_form" action="{$moly[webdir]}index.php?u=comment-post-ajax-1" method="post">
+						<div class="ctf_cont"><textarea name="content" id="ctf_content" tabindex="1">文明上网，理性发言</textarea></div>
+						<div class="ctf_body">
+							<div class="ctf_txt" title="请填写昵称"><input name="author" id="ctf_author" type="text" value="访客" /></div>
+							<div class="ctf_sub"><input type="submit" id="ctf_submit" value="发表评论" /></div>
+							<div id="ctf_tips"></div>
+						</div>
+						<input type="hidden" name="cid" value="{$gdata[cid]}" />
+						<input type="hidden" name="id" value="{$gdata[id]}" />
+					</form>
+				</div>
+			</div>
+			{/block}
+		</div>
+
+		<div class="m_r">
+
+			{inc:right.htm}
+		</div>
+	</div>
+	<!--两列结束-->
+
+{inc:footer.htm}

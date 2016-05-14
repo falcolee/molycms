@@ -1,0 +1,27 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="javascript:;">清除缓存</a></li>
+    </ul>
+</div>
+	<div class="form2">
+			<ul class="marginbot">
+				<li><label><input type="checkbox" checked="checked" id="runtime_db"> <span title="清空 runtime 数据表">清空 runtime 数据表</span></label></li>
+				<li><label><input type="checkbox" checked="checked" id="runtime_file"> <span title="删除 runtime 目录中的文件缓存">清空编译文件</span></label></li>
+			</ul>
+			
+			<div class="position-bottom">
+		        <input type="submit" value="确 定" id="clearcache" class="btn btn_submit" name="submit">
+		    </div>
+	</div>
+<script type="text/javascript">
+$("#clearcache").click(function(){
+	var v1 = $("#runtime_db")[0].checked ? 1 : 0;
+	var v2 = $("#runtime_file")[0].checked ? 1 : 0;
+	maybeAjax.postd("index.php?u=tool-index-ajax-1", {"runtime_db":v1, "runtime_file":v2}, function(data){
+		maybeAjax.alert(data);
+		if(window.maybeData.err==0) setTimeout("window.location.reload()",1000);
+	});
+});
+</script>
+{inc:footer.htm}

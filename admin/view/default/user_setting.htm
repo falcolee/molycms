@@ -1,0 +1,65 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="javascript:;">用户模块设置</a></li>
+    </ul>
+</div>
+<style type="text/css">
+textarea{height:100px;width:480px;}
+</style>
+<form class="check_form" action="index.php?u=user-setting-ajax-1" method="post">
+	<div class="h_a">基本属性</div>
+	<div class="table_full">
+		<table width="100%">
+			<tbody>
+				<tr>
+		            <th width="100">开启用户模块</th>
+		            <td>
+		            	<input type="checkbox" name="open_user_model" value="1" {if:$input['open_user_model']} checked="checked"{/if}>
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>允许新会员注册</th>
+		            <td>
+		            	<input type="checkbox" name="open_user_reg" value="1" {if:$input['open_user_reg']} checked="checked"{/if}>
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>会员激活方式</th>
+		            <td>
+		            	<input type="radio" name="user_active_method" value="0" {if:$input['user_active_method']==0} checked="checked"{/if}>注册激活
+		            	<input type="radio" name="user_active_method" value="1" {if:$input['user_active_method']==1} checked="checked"{/if}>管理员激活
+		            	<input type="radio" name="user_active_method" value="2" {if:$input['user_active_method']==2} checked="checked"{/if}>邮箱激活    <span class="red">确定"邮箱设置"OK？</span>
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>邮箱激活内容</th>
+		            <td>
+		            	{$input[email_active_content]}
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>密码找回邮件内容</th>
+		            <td>
+		            	{$input[email_pwd_content]}
+		            </td>
+		        </tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="btn_wrap">
+    	<div class="btn_wrap_pd">             
+        	<button type="submit" class="btn btn_submit mr10">保存</button>
+      	</div>
+    </div>
+</form>    
+	
+	
+
+<script type="text/javascript">
+maybeAjax.submit("form:first", function(data){
+	maybeAjax.alert(data);
+	if(window.maybeData.err==0) setTimeout("window.location.reload()",1000);
+});
+</script>
+{inc:footer.htm}

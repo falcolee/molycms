@@ -1,0 +1,220 @@
+{inc:header.htm}
+
+<style type="text/css">
+#tab_tit{height:32px;margin-top:10px}
+#tab_tit ul li{float:left;_display:inline;height:32px;line-height:32px;margin-right:10px}
+#tab_tit ul li a{display:block;background:#E3F1F4;padding:0 10px}
+#tab_tit ul li a.on{display:block;background:#B4DBF2}
+#tab_main .tab_cont textarea{border:1px solid #9BCBE8;width:99%;height:200px;padding:5px}
+#tab_main .tab_cont .tabtop{margin-top:8px}
+.un{display:none;}
+</style>
+<div class="nav">
+    <ul class="cc" id="nav_tab">
+        <li class="current"><a href="javascript:;">链接设置</a></li>
+        <li><a href="javascript:;">伪静态规则</a></li>
+      </ul>
+</div>
+
+<div class="form2">
+	<form id="setting-link" action="index.php?u=setting-link-ajax-1" method="post">
+		<dl class="lineD">
+	      <dt>静态化选项：</dt>
+	      <dd>
+	        {$input[parseurl]}（友情提示：开启伪静态前，请向空间商确认主机是否支持，使用伪静态后请切换到“伪静态规则”菜单生成对应的规则文件）
+	        <table id="parseurl_dis" class="table_list">
+	        		<tbody>
+						<tr>
+							<th class="th">内容URL</th>
+							<td class="col">
+								<div>
+									<label><input name="selection" type="radio" value="{cid}/{id}.html"{if:$cfg['link_show_type']==1} checked="checked"{/if}> 数字型</label>
+									<code>http://{$cfg[webdomain]}{$cfg[webdir]}520/123.html</code>
+								</div>
+
+								<div style="padding-top:8px">
+									<label><input name="selection" type="radio" value="{cate_alias}/{id}.html"{if:$cfg['link_show_type']==2} checked="checked"{/if}> 推荐型</label>
+									<code>http://{$cfg[webdomain]}{$cfg[webdir]}fenlei/123.html</code>
+								</div>
+
+								<div style="padding-top:8px">
+									<label><input name="selection" type="radio" value="{alias}.html"{if:$cfg['link_show_type']==3} checked="checked"{/if}> 别名型</label>
+									<code>http://{$cfg[webdomain]}{$cfg[webdir]}bieming.html</code>
+								</div>
+
+								<div style="padding-top:8px">
+									<label><input name="selection" type="radio" value="{y}{m}{d}/{alias}.html"{if:$cfg['link_show_type']==4} checked="checked"{/if}> 灵活型</label>
+									<code>http://{$cfg[webdomain]}{$cfg[webdir]}{php} echo date('Ymd');{/php}/bieming.html</code>
+								</div>
+
+								<div style="padding-top:8px">
+									http://{$cfg[webdomain]}{$cfg[webdir]}{$input[link_show]}
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="th">分类URL</th>
+							<td class="col">前缀{$input[link_cate_page_pre]} 后缀{$input[link_cate_page_end]} 首页后缀{$input[link_cate_end]}</td>
+						</tr>
+						<tr>
+							<th class="th">标签URL</th>
+							<td class="col">前缀{$input[link_tag_pre]} 后缀{$input[link_tag_end]}</td>
+						</tr>
+						<tr>
+							<th class="th">评论URL</th>
+							<td class="col">前缀{$input[link_comment_pre]} 后缀{$input[link_comment_end]}</td>
+						</tr>
+						<tr>
+							<th class="th">首页分页URL</th>
+							<td class="col">后缀{$input[link_index_end]}</td>
+						</tr>
+					</tbody>
+				</table>
+				{hook:admin_setting_link_after.htm}
+	      </dd>
+	      	<div style="margin-left:20px;">
+	        	<input type="submit" value="&#20445;&#23384;" class="btn btn_submit" name="submit">
+	    	</div>
+	    </dl>
+	    <dl class="lineD" style="display:none">
+	      <dt>伪静态规则：</dt>
+	      <dd>
+	      		友情提示：您的服务器为 {$software}
+	      		
+				<div id="tab_tit">
+					<ul>
+						<li><a href="javascript:;" class="on">Nginx</a></li>
+						<li><a href="javascript:;">Apache</a></li>
+						<li><a href="javascript:;">IIS7,8</a></li>
+						<li><a href="javascript:;">IIS6</a></li>
+					</ul>
+				</div>
+				<div id="tab_main">
+					<div class="tab_cont">
+						<textarea readonly="">{$nginx}</textarea>
+						<div class="tabtop">请修改 nginx.conf，在 location / { } 节点间加入上述规则。</div>
+					</div>
+	
+					<div class="tab_cont un">
+						<textarea readonly="">{$apache}</textarea>
+						<div class="tabtop">
+							<a class="btn" href="javascript:mk_rewrite('htaccess');">创建.htaccess</a>
+							<a class="btn" href="javascript:del_rewrite('htaccess');">删除.htaccess</a>
+						</div>
+						<div class="tabtop">
+							{if:empty($is_file_apache)}
+								<b style="color:#BD0A01">未检测到 .htaccess 文件，您可点击“创建.htaccess”按钮，也可手工在MAYBECMS根目录创建 .htaccess 文件并把上面内容复制进去</b>
+							{else}
+								<b style="color:green">已检测到 .htaccess 文件，如果您不想使用伪静态，请点击“删除.htaccess”按钮删除 .htaccess 文件</b>
+							{/if}
+						</div>
+					</div>
+	
+					<div class="tab_cont un">
+						<textarea readonly="" style="height:320px">{$iis}</textarea>
+						<div class="tabtop">
+							<a class="btn" href="javascript:mk_rewrite('web_config');">创建web.config</a>
+							<a class="btn" href="javascript:del_rewrite('web_config');">删除web.config</a>
+						</div>
+						<div class="tabtop">
+							{if:empty($is_file_iis)}
+								<b style="color:#BD0A01">未检测到 web.config 文件，您可点击“创建web.config”按钮，也可手工在MAYBECMS根目录创建 web.config 文件并把上面内容复制进去</b>
+							{else}
+								<b style="color:green">已检测到 web.config 文件，如果您不想使用伪静态，请点击“删除web.config”按钮删除 web.config 文件</b>
+							{/if}
+						</div>
+					</div>
+	
+					<div class="tab_cont un">
+						<textarea readonly="">{$iis6}</textarea>
+						<div class="tabtop">
+							<a class="btn" href="javascript:mk_rewrite('httpd_ini');">创建httpd.ini</a>
+							<a class="btn" href="javascript:del_rewrite('httpd_ini');">删除httpd.ini</a>
+						</div>
+						<div class="tabtop">
+							{if:empty($is_file_iis6)}
+								<b style="color:#BD0A01">未检测到 httpd.ini 文件，您可点击“创建httpd.ini”按钮，也可手工在网站根目录创建 httpd.ini 文件并把上面内容复制进去</b>
+							{else}
+								<b style="color:green">已检测到 httpd.ini 文件，如果您不想使用伪静态，请点击“删除httpd.ini”按钮删除 httpd.ini 文件</b>
+							{/if}
+						</div>
+					</div>
+				</div>
+	      </dd>
+	    </dl>
+	    
+	</form>
+</div>
+
+<script type="text/javascript">
+$("input[name='selection']").change(function(){
+	var s = $(this).val();
+	$("input[name='link_show']").val(s);
+});
+
+// 是否显示伪静态设置
+function dis_parseurl(v) {
+	if(typeof v != "undefined" && parseInt(v) == 1) {
+		$("#parseurl_dis").show();
+	}else{
+		$("#parseurl_dis").hide();
+	}
+}
+dis_parseurl($("input[name='parseurl'][checked]").val());
+$("input[name='parseurl']").change(function(){
+	dis_parseurl($(this).val());
+});
+
+//切换链接设置，伪静态规则
+$("#nav_tab li").click(function(){
+	var index = $(this).index();
+	$(this).addClass("current").siblings().removeClass("current")
+	
+	$("#setting-link dl").eq(index).show().siblings('dl').hide();
+});
+
+// 伪静态规则切换
+$("#tab_tit>ul>li>a").click(function(){
+	$("#tab_tit>ul>li>a").removeAttr("class");
+	$(this).addClass("on");
+
+	var i = $(this).parent().index();
+	$("#tab_main>.tab_cont").hide();
+	$("#tab_main>.tab_cont").eq(i).show();
+});
+
+// 创建伪静态文件
+function mk_rewrite(mk) {
+	maybeAjax.postd("index.php?u=setting-link-mk-"+mk+"-ajax-1", {}, function(data){
+		maybeAjax.alert(data);
+	});
+}
+
+// 删除伪静态文件
+function del_rewrite(del) {
+	maybeAjax.postd("index.php?u=setting-link-del-"+del+"-ajax-1", {}, function(data){
+		maybeAjax.alert(data);
+	});
+}
+
+// 提交表单
+$("form:first").submit(function(){
+	var obj = $(this);
+	var d = obj.serializeArray();
+	var parseurl;
+
+	for(i in d) {
+		if(d[i]['name'] == "parseurl") {
+			parseurl = d[i]['value'];
+			break;
+		}
+	}
+
+	maybeAjax.postd(obj.attr("action"), d, function(data){
+		maybeAjax.alert(data);
+		if(window.maybeData.err==0) setTimeout("window.location.reload()",1000);
+	});
+	return false;
+});
+</script>
+{inc:footer.htm}

@@ -1,0 +1,69 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=slide-index">幻灯片列表</a></li>
+        <li><a href="index.php?u=slide-add">添加幻灯片</a></li>
+        <li><a href="index.php?u=slide-addpic-id-{$data[slide_id]}">添加幻灯片图片</a></li>
+      </ul>
+</div>
+<form method="post" id="myform" action="index.php?u=slide-listorder">
+	<div class="table_list">
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<td width="40">排序值</td>
+		        <td style="width:30px">ID</td>
+		        <td style="width:50px">幻灯片ID</td>
+		        <td>标题</td>
+		        <td>图片</td>
+		        <td>链接地址</td>
+		        <td>描述</td>
+		        <td style="width:50px">状态</td>
+		        <td style="width:120px">添加时间</td>
+		        <td align="center" style="width:100px">操作</td>
+	    	</tr>
+		</thead>
+		<tbody>
+			
+	    	{if:empty($list)}
+	    		<tr class="no_data"><td colspan="10">暂无数据</td></tr>
+	    	{else}
+		    	{loop:$list $v}
+		            <tr>
+		            	<td><input name='listorder[{$v[id]}]' type='text' size='3' value="{$v[listorder]}"></td>
+		            	<td>{$v[id]}</td>
+		            	<td>{$v[slide_id]}</td>
+			        	<td>{$v[title]}</td>
+			        	<td>{$v[pic]}</td>
+			        	<td>{$v[link]}</td>
+			        	<td>{$v[description]}</td>
+			        	<td>
+			        		{if:$v[status] == 1}<span class="green">显示</span>{else}<span class="red">隐藏</span>{/if}
+			        	</td>
+			        	<td>{php} echo date('Y-m-d H:i:s', $v['dateline']);{/php}</td>
+			        	<td align="center">
+							<a class="btn" href="index.php?u=slide-editpic-id-{$v[id]}">编辑</a>
+							<a class="btn" href="javascript:del({$v[id]},{$v[slide_id]});">删除</a>
+						</td>
+		        	</tr>
+	        	{/loop}
+        	{/if}
+    	</tbody>
+	</table>
+	</div>
+	<div class="btn_wrap_pd mt5">               
+        <button data-action="index.php?u=slide-listorder" type="button" class="btn J_ajax_submit_btn">排序</button>
+    </div>
+</form>
+<script type="text/javascript">
+//删除
+function del(id, slideid) {
+	maybeAjax.confirm("删除不可恢复，确定删除？", function(){
+		maybeAjax.postd("index.php?u=slide-delpic-ajax-1", {"id":id, "slideid":slideid}, function(data){
+			maybeAjax.alert(data);
+			if(window.maybeData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+</script>
+{inc:footer.htm}

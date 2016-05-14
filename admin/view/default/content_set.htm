@@ -1,0 +1,46 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li><a href="index.php?u=models-dindex">内容模型列表</a></li>
+        <li><a href="index.php?u=content-index-id-{$data[model][id]}">{$data[model][description]}内容列表</a></li>
+        <li  class="current"><a href="index.php?u=content-add-id-{$data[model][id]}">添加{$data[model][description]}</a></li>
+    </ul>
+</div>
+
+
+<form class="check_form" action="index.php?u=content-{$_GET['action']}" method="post">
+	<input type="hidden" name="info[id]" value="{$data[content][id]}">
+    <input type="hidden" name="mid" value="{$data[model][id]}">
+	<div class="h_a">基本属性</div>
+	<div class="table_full">
+		<table width="100%">
+			<tbody>
+                {if:empty($data[fields])}
+                <tr class="no_data"><td colspan="5">无字段可显示</td></tr>
+                {else}
+                {loop:$data[fields] $v}
+                    <tr>
+                        <th>{$v[description]}</th>
+                        <td>
+                            {php}field_behavior::on_form($v,isset($data['content'][$v['name']]) ? $data['content'][$v['name']] : '',TRUE, $data['model']['hasattach']);{/php}
+                        </td>
+                    </tr>
+                {/loop}
+                {/if}
+			</tbody>
+		</table>
+	</div>
+	<div class="btn_wrap">
+    	<div class="btn_wrap_pd">             
+        	<button type="submit" class="btn btn_submit mr10">提交</button>
+      	</div>
+    </div>
+	
+</form>
+
+<script type="text/javascript">
+
+</script>
+{hook:admin_other_after.htm}
+
+{inc:footer.htm}

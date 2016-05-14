@@ -1,0 +1,147 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=plugin-index">插件列表</a></li>
+        <li><a href="javascript:alert('暂未开放')">在线获取</a></li>
+      </ul>
+</div>
+<div class="table_list">
+	<table cellspacing="0" width="100%">
+		<tbody>
+			{if:empty($plugins[enable]) && empty($plugins[disable]) && empty($plugins[not_install])}
+				<tr class="no_data">
+					<td colspan="3">暂无插件</td>
+				</tr>
+			{else}
+				{loop:$plugins[enable] $v $k}
+					<tr>
+						<td>
+							<img src="../{$core}/plugin/{$k}/show.jpg">
+						</td>
+						<td>
+							<p class="plu_cont plu_b">{$v[name]}({$k})</p>
+							<p class="plu_bottom" plugin="{$k}" version="{$v[version]}">
+								<a class="btn disabled">停用</a>
+							</p>
+						</td>
+						<td>
+							<p class="plu_cont plu_i">{$v[brief]}</p>
+							<p class="plu_bottom"><b>版本号：{$v[version]}</b> <b>作者: <a href="{$v[authorurl]}" target="_blank">{$v[author]}</a></b> <b>最近更新：{$v[update]}</b></p>
+						</td>
+					</tr>
+				{/loop}
+				{loop:$plugins[disable] $v $k}
+					<tr>
+						<td>
+							<img src="../{$core}/plugin/{$k}/show.jpg">
+						</td>
+						<td>
+							<p class="plu_cont plu_b">{$v[name]}({$k})</p>
+							<p class="plu_bottom" plugin="{$k}" version="{$v[version]}">
+								{if:!empty($v['setting']) && !empty($v['setting_ok'])}
+								<a class="btn" href="index.php?u={$v[setting]}">设置</a>
+								{else}
+								<a class="btn enable">启用</a>
+								{/if}
+								<a class="btn del">删除</a>
+							</p>
+						</td>
+						<td>
+							<p class="plu_cont plu_i">{$v[brief]}</p>
+						<p class="plu_bottom"><b>版本号：{$v[version]}</b> <b>作者: <a href="{$v[authorurl]}" target="_blank">{$v[author]}</a></b> <b>最近更新：{$v[update]}</b></p>
+						</td>
+					</tr>
+				{/loop}
+				{loop:$plugins[not_install] $v $k}
+					<tr>
+						<td>
+							<img src="../{$core}/plugin/{$k}/show.jpg">
+						</td>
+						<td>
+							<p class="plu_cont plu_b">{$v[name]}({$k})</p>
+							<p class="plu_bottom" plugin="{$k}" version="{$v[version]}">
+								<a class="btn install">安装</a>
+								<a class="btn del">删除</a>
+							</p>
+						</td>
+						<td>
+							<p class="plu_cont plu_i">{$v[brief]}</p>
+						<p class="plu_bottom"><b>版本号：{$v[version]}</b> <b>作者: <a href="{$v[authorurl]}" target="_blank">{$v[author]}</a></b> <b>最近更新：{$v[update]}</b></p>
+						</td>
+					</tr>
+				{/loop}
+			{/if}
+		</tbody>
+	</table>
+</div>	
+		
+<script type="text/javascript">
+setPlurWidth();
+$(window).resize(setPlurWidth);
+$("#plugin .plu_c .plu_bottom a").each(function() {
+	if(!this.href) this.href = "javascript:;";
+});
+
+//停用
+$(".disabled").click(function(){
+	var dir = $(this).parent().attr("plugin");
+	maybeAjax.postd("index.php?u=plugin-disabled-ajax-1", {"dir" : dir}, function(data){
+		maybeAjax.alert(data);
+		if(window.maybeData.err==0){
+			$('.nid_8 dl dd a[nid="'+dir+'"]', parent.document).parent().remove();//移除左侧对应的菜单
+			setTimeout("window.location.reload()",1000);
+		}
+	});
+});
+
+//启用
+$(".enable").click(function(){
+	enable($(this).parent().attr("plugin"));
+});
+
+//安装
+$(".install").click(function(){
+	maybeAjax.postd("index.php?u=plugin-install-ajax-1", {"dir" : $(this).parent().attr("plugin")}, function(data){
+		maybeAjax.alert(data);
+		if(window.maybeData.err==0) setTimeout("window.location.reload()",1000);
+	});
+});
+
+//删除
+$(".del").click(function(){
+	var dir = $(this).parent().attr("plugin");
+	maybeAjax.confirm("删除不可恢复，确定删除“<font color='red'>"+$(this).parent().parent().children(".plu_b").html()+"</font>”？", function(){
+		maybeAjax.postd("index.php?u=plugin-delete-ajax-1", {"dir" : dir}, function(data){
+			window.maybeErr = true;
+			maybeAjax.alert(data);
+			$(".ajaxtips u").click(function(){window.location.reload();});
+			if(window.maybeData.err==0) setTimeout(function(){window.location.reload();}, 1000);
+		});
+	});
+});
+
+//加载效果
+var int;
+function loading() {
+	var dot = '';
+	int = setInterval(function(){
+		dot += '.';
+		if(dot.length > 6) dot = '.';
+		$("#loading").html(dot);
+	}, 50);
+}
+
+//设置插件展示宽度 PS: CSS3 时代的到来就可以不使用这么笨的方法了
+function setPlurWidth() {
+	$(".plu_r").width(Math.max(500, $(".plu:visible").width() - $(".plu_l:visible").outerWidth(true) - $(".plu_c:visible").outerWidth(true) - 15));
+}
+
+//启用
+function enable(dir) {
+	maybeAjax.postd("index.php?u=plugin-enable-ajax-1", {"dir" : dir}, function(data){
+		maybeAjax.alert(data);
+		if(window.maybeData.err==0) setTimeout("window.location.reload()",1000);
+	});
+}
+</script>
+{inc:footer.htm}

@@ -1,0 +1,67 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=photo-index">图集列表</a></li>
+        <li><a href="index.php?u=photo-add">添加图集</a></li>
+      </ul>
+</div>
+<form method="post" id="myform" action="index.php?u=photo-index">
+	<div class="h_a">搜索</div>
+	<div class="search_type cc mb10">
+	    <div class="mb10"> 
+		    <span class="mr20">
+		    分类：{$cidhtml}
+		     标题：<input type="text" placeholder="图集标题" value="{$keyword}" name="keyword">
+		    <button class="btn">搜索</button>
+		      </span> 
+	      </div>
+	</div>
+	<div class="table_list">
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<td style="width:30px"></td>
+				<td width="40">排序值</td>
+		        <td align='center' style="width:30px">ID</td>
+		        <td>标题</td>
+		        <td align='center' style="width:150px">作者</td>
+		        <td align='center' style="width:50px">评论数</td>
+		        <td align='center' style="width:150px">发布时间</td>
+		        <td align='center' style="width:150px">操作</td>
+	    	</tr>
+		</thead>
+		<tbody>
+			
+	    	{if:empty($list)}
+	    		<tr class="no_data"><td colspan="9">暂无数据</td></tr>
+	    	{else}
+		    	{loop:$list $v}
+		            <tr>
+		            	<td><input type="checkbox" value="{$v[id]}" name="ids[]" class="inputcheckbox "></td>
+		            	<td><input name='listorder[{$v[id]}]' type='text' size='3' value="{$v[listorder]}"></td>
+		            	<td align='center'>{$v[id]}</td>
+			        	<td>{$v[title]}{$v[flagstr]}</td>
+			        	<td align='center'>{$v[author]}</td>
+			        	<td align='center'>{$v[comments]}</td>
+			        	<td align='center'>{php} echo date('Y-m-d H:i:s', $v['dateline']);{/php}</td>
+			        	<td align='center'>
+							<a class="btn" href="index.php?u=photo-edit-cid-{$v[cid]}-id-{$v[id]}">编辑</a>
+							<a class="btn" href="{$v[url]}" target="_blank">查看</a>
+							<a class="J_ajax_del btn" href="index.php?u=photo-del-ajax-1-cid-{$v[cid]}-id-{$v[id]}">删除</a>
+						</td>
+		        	</tr>
+	        	{/loop}
+        	{/if}
+    	</tbody>
+	</table>
+	</div>
+	<div class="page_nav mt5">
+		<span>共 <font color="red">{$total}</font> 条</span>{$pages}
+	</div>
+	<div class="position-bottom">
+        <label class="mr20"><input type="checkbox" onclick="selectall('ids[]',this);">全选</label>                
+        <button data-action="index.php?u=photo-listorder" type="button" class="btn btn_submit J_ajax_submit_btn">排序</button>
+        <button data-action="index.php?u=photo-batch_del" type="button" class="btn btn_submit J_ajax_submit_btn">删除</button>
+    </div>
+</form>
+{inc:footer.htm}

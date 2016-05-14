@@ -1,0 +1,41 @@
+{inc:header.htm}
+
+	<!--两列开始-->
+	<div class="cont cf">
+		<div class="m_l">
+			<div class="b2_tit b10">
+				<a href="{$moly[weburl]}">首页</a>
+				{loop:$moly_var[place] $v} &#187; <a href="{$v[url]}" title="{$v[name]}">{$v[name]}</a>{/loop}
+			</div>
+			{block:global_cate pagenum="20"}
+			<div class="b1_top">
+				<div class="b1_cont cf">
+					<div class="pho_list">
+						<ul class="cf">
+							{loop:$gdata[list] $v}<li><a href="{$v[url]}" title="{$v[title]}" target="_blank"><img src="{$v[pic]}" /><u>{$v[subject]}</u></a></li>{/loop}
+						</ul>
+						<div class="pages cf"><span>共 <font color="red">{$gdata[total]}</font> 篇</span>{$gdata[pages]}</div>
+					</div>
+				</div>
+			</div>
+			{/block}
+		</div>
+
+		<div class="m_r">
+			{block:category type="sibling"}
+			<div class="b10">
+				<h2 class="b2_tit">
+					<b>相关分类</b>
+				</h2>
+				<ul class="b2_cont cat_r cf">
+					{loop:$data $v}<li><a href="{$v[url]}"{if:$v['cid'] == $_GET['cid']} style="font-weight:bold"{/if}>{$v[name]}</a></li>{/loop}
+				</ul>
+			</div>
+			{/block}
+
+			{inc:right.htm}
+		</div>
+	</div>
+	<!--两列结束-->
+
+{inc:footer.htm}

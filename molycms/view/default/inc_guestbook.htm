@@ -1,0 +1,59 @@
+<form name="guestbook" method="post" action="{$moly[webdir]}index.php?u=guestbook">
+	<table>
+		<tr>
+			<td>
+			标题
+			</td>
+			<td>
+			<input class="input" type="text" style="width:450px;" name="title" value="">
+			</td>
+		</tr>
+		<tr>
+			<td>
+			称呼
+			</td>
+			<td>
+			<input class="input" type="text" name="author" maxlength="20" value="">
+			</td>
+		</tr>
+		<tr>
+			<td>
+			邮箱
+			</td>
+			<td>
+			<input class="input" type="text" placeholder='邮箱或电话至少填写一项' name="email" maxlength="40" value="">
+			</td>
+		</tr>
+		<tr>
+			<td>
+			电话
+			</td>
+			<td>
+			<input class="input" type="text" placeholder='邮箱或电话至少填写一项' name="telephone" maxlength="50" value="">
+			</td>
+		</tr>
+		<tr>
+			<td>
+			内容<font class="red">*</font>
+			</td>
+			<td>
+			<textarea cols="60" rows="5" name="content"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			验证码<font class="red">*</font>
+			</td>
+			<td>
+			<input class="input" type="text" style="width:100px;" name="code" maxlength="4" value="">
+			<img border="0" width="50" height="25" id="verifyImg" alt="如果您无法识别验证码，请点图片更换" style="cursor:hand;" src="{$moly[webdir]}index.php?u=public-verify-name-guestbookcode" onclick='this.src=this.src+"&"+Math.random()'>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+			<input type="submit" name="submit" value="提交"/>
+			</td>
+		</tr>
+	</table>
+</form>

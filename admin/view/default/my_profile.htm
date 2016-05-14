@@ -1,0 +1,41 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="javascript:;">修改个人资料</a></li>
+    </ul>
+</div>
+
+<form action="index.php?u=my-profile-ajax-1" method="post">
+	<div class="h_a">基本属性</div>
+	<div class="table_full">
+		<table width="100%">
+			<tbody>
+				<tr>
+		            <th width="80">邮箱</th>
+		            <td>
+		            	<input type="text" value="{$adminInfo[email]}" name="data[email]">
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>责任编辑</th>
+		            <td>
+		            	<input type="text" value="{$adminInfo[author]}" name="data[author]">
+		            </td>
+		        </tr>
+	       	</tbody>
+       	</table>
+   </div>
+   <div class="btn_wrap">
+   		<div class="btn_wrap_pd">             
+       		<button type="submit" class="btn btn_submit mr10">保存</button>
+     	</div>
+   </div>
+</form>
+
+<script type="text/javascript">
+maybeAjax.submit("form:first", function(data){
+	maybeAjax.alert(data);
+	if(window.maybeData.err==0) setTimeout("window.location.reload()",1000);
+});
+</script>
+{inc:footer.htm}

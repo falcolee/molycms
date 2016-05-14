@@ -1,0 +1,65 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=models-index">内容模型列表</a></li>
+        <li><a href="index.php?u=models-add">添加模型</a></li>
+    </ul>
+</div>
+
+	<div class="table_list">
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+                            <td width=50  align="left">ID</td>
+                            <td>内容模型标识</td>
+                            <td>内容模型名称</td>
+                            <td>频道页模板</td>
+                            <td>列表页模板</td>
+                            <td>内容页模板</td>
+                            <td>是否系统模型</td>
+                            <td width=100>是否使用上传组件</td>
+                            <td align="center">操作</td>
+	    	</tr>
+		</thead>
+		<tbody>
+			
+	    	{if:empty($list)}
+	    		<tr class="no_data"><td colspan="5">暂无数据</td></tr>
+	    	{else}
+		    	{loop:$list $v}
+		            <tr>
+		            	<td>{$v[mid]}</td>
+                        <td>{$v[tablename]}</td>
+			        	<td>{$v[name]}</td>
+                        <td>{$v[index_tpl]}</td>
+                        <td>{$v[cate_tpl]}</td>
+                        <td>{$v[show_tpl]}</td>
+                        <td>{if:$v[system] == 1}<span class="green">是</span>{else}<span class="red">否</span>{/if}</td>
+                        <td>{if:$v[hasattach] == 1}<span class="green">使用</span>{else}<span class="red">未使用</span>{/if}</td>
+			        	<td align="center">
+                                <a class="btn" href="index.php?u=models-edit-id-{$v[mid]}">编辑</a>
+                                <a class="btn" href="javascript:del({$v[mid]});">删除</a>
+                                <a class="btn" href="index.php?u=models-dlist-id-{$v[mid]}">字段管理</a>
+                                <a class="btn" href="index.php?u=content-index-id-{$v[mid]}">列表管理</a>
+						</td>
+		        	</tr>
+	        	{/loop}
+        	{/if}
+    	</tbody>
+	</table>
+	</div>
+	<div class="page_nav">
+		<span>共 <font color="red">{$total}</font> 条</span>{$pages}
+	</div>
+<script type="text/javascript">
+//删除
+function del(id) {
+	maybeAjax.confirm("删除不可恢复，确定删除？", function(){
+		maybeAjax.postd("index.php?u=models-del-ajax-1", {"id":id}, function(data){
+			maybeAjax.alert(data);
+			if(window.maybeData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+</script>
+{inc:footer.htm}

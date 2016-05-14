@@ -1,0 +1,42 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=models-index">模型列表</a></li>
+      </ul>
+</div>
+
+	<div class="table_list">
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+		        <td style="width:30px">mid</td>
+		        <td style="width:150px">模型名称</td>
+		        <td>表名</td>
+		        <td>频道页模板</td>
+		        <td>列表页模板</td>
+		        <td>内容页模板</td>
+		        <td style="width:100px">是否系统内置</td>
+	    	</tr>
+		</thead>
+		<tbody>
+			
+	    	{if:empty($list)}
+	    		<tr class="no_data"><td colspan="7">暂无数据</td></tr>
+	    	{else}
+		    	{loop:$list $v}
+		            <tr>
+		            	<td>{$v[mid]}</td>
+			        	<td>{$v[name]}</td>
+			        	<td>{$v[tablename]}</td>
+			        	<td>{$v[index_tpl]}</td>
+			        	<td>{$v[cate_tpl]}</td>
+			        	<td>{$v[show_tpl]}</td>
+			        	<td>{if:$v[system] == 1}<span class="green">是</span>{else}<span class="red">否</span>{/if}</td>
+		        	</tr>
+	        	{/loop}
+        	{/if}
+    	</tbody>
+	</table>
+	</div>
+
+{inc:footer.htm}

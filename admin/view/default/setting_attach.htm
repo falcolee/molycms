@@ -1,0 +1,53 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="javascript:;">上传设置</a></li>
+    </ul>
+</div>
+
+<form action="index.php?u=setting-attach-ajax-1" method="post">
+	<div class="h_a">基本属性</div>
+	<div class="table_full">
+		<table width="100%">
+			<tbody>
+				<tr>
+		            <th width="80">上传图片类型</th>
+		            <td>
+		            	{$input[up_img_ext]}
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>上传图片限制</th>
+		            <td>
+		            	{$input[up_img_max_size]}KB
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>上传附件类型</th>
+		            <td>
+		            	{$input[up_file_ext]}
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>上传附件限制</th>
+		            <td>
+		            	{$input[up_file_max_size]}KB
+		            </td>
+		        </tr>
+	       	</tbody>
+       	</table>
+   </div>
+   <div class="btn_wrap">
+   		<div class="btn_wrap_pd">             
+       		<button type="submit" class="btn btn_submit mr10">保存</button>
+     	</div>
+   </div>
+</form>
+<script type="text/javascript">
+maybeAjax.submit("form:first", function(data){
+	maybeAjax.alert(data);
+	if(window.maybeData.err==0) setTimeout("window.location.reload()",1000);
+});
+</script>
+
+{inc:footer.htm}

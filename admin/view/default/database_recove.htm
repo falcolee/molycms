@@ -1,0 +1,47 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li><a href="index.php?u=database-index">数据库管理</a></li>
+        <li><a href="index.php?u=database-backup">数据库备份</a></li>
+        <li class="current"><a href="index.php?u=database-recove">备份列表</a></li>
+    </ul>
+</div>
+<form method="post" id="myform" action="index.php?u=database-recove">
+	<div class="table_list">
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+		        <td align="left">备份文件</td>
+		        <td align="center" style="width:150px">备份时间</td>
+		        <td align="center" style="width:50px">版本</td>
+		        <td align="center" style="width:100px">大小</td>
+		        <td align="center" style="width:50px">卷数</td>
+		        <td align="center" style="width:150px">操作</td>
+	    	</tr>
+		</thead>
+		<tbody>
+			
+	    	{if:empty($list)}
+	    		<tr class="no_data"><td colspan="6">暂无数据</td></tr>
+	    	{else}
+		    	{loop:$list $v}
+		            <tr>
+		            	<td align="left">{$v[name]}</td>
+				        <td align="center">{$v[createtime]}</td>
+				        <td align="center">{$v[version]}</td>
+				        <td align="center">{$v[sqlsize]}</td>       
+				        <td align="center">{$v[volumes]}</td>
+						<td align="center">
+							<a href="index.php?u=database-down-sqlname-{$v[name]}">下载</a>
+							<a class="J_ajax_del" href="index.php?u=database-del-ajax-1-sqlname-{$v[name]}">删除</a>
+							
+						</td>
+		        	</tr>
+	        	{/loop}
+        	{/if}
+    	</tbody>
+	</table>
+	</div>
+</form>
+
+{inc:footer.htm}

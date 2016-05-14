@@ -1,0 +1,79 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li><a href="index.php?u=cates-index">分类模型列表</a></li>
+        <li class="current"><a href="index.php?u=cates-add">添加模型</a></li>
+    </ul>
+</div>
+
+
+<form class="check_form" action="index.php?u=cates-{$_GET['action']}" method="post">
+    <input type="hidden" name="id" value="{$data[id]}">
+
+    <div class="h_a">基本属性</div>
+    <div class="table_full">
+        <table width="100%">
+            <tbody>
+            <tr>
+                <th width="150">分类模型标识</th>
+                <td><input type="text" id="name" value="{$data[name]}" name="info[name]" maxlength="20"></td>
+                <td><label>*3-20位的仅包含字母数字以及下划线破折号的字符，将用作数据库表名。</label></td>
+            </tr>
+            <tr>
+                <th>分类模型名称</th>
+                <td><input type="text" id="description" value="{$data[description]}" name="info[description]"
+                           maxlength="40"></td>
+                <td><label>*有意义的名称，最大40个字符。</label></td>
+            </tr>
+            <tr>
+                <th>分类模型层级</th>
+                <td><input size="5" type="text" id="perpage" value="{$data[perpage]}" name="info[perpage]"></td>
+                <td><label>*分类的层级。</label></td>
+            </tr>
+            <tr>
+                <th>是否使用上传控件</th>
+                <td>使用<input type="radio" name="info[hasattach]" value="1" {if:$data[hasattach] ==1} checked=""{/if}>
+                    <font color="red">不使用</font><input type="radio" name="info[hasattach]" value="0"
+                    {if:$data[hasattach] ==0} checked=""{/if}>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="btn_wrap">
+        <div class="btn_wrap_pd">
+            <button type="submit" class="btn btn_submit mr10">提交</button>
+        </div>
+    </div>
+
+</form>
+
+<script type="text/javascript">
+
+    oInitJson = {
+        tiptype: 3,
+        beforeSubmit: function () {
+
+        }
+    };
+    var oVdForm = $(".check_form").Validform(oInitJson);
+    oVdForm.addRule([
+        {
+            ele: "#description",
+            datatype: "*",
+            altercss: "tipColor",
+            nullmsg: "请输入名称",
+            errormsg: "名称输入错误"
+        },
+        {
+            ele: "#name",
+            datatype: "*",
+            altercss: "tipColor",
+            nullmsg: "请输入标识",
+            errormsg: "标识输入错误"
+        }
+    ]);
+
+
+</script>
+{inc:footer.htm}

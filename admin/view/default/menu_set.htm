@@ -1,0 +1,109 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li><a href="index.php?u=menu-index">菜单管理</a></li>
+        <li class="current"><a href="index.php?u=menu-add">添加菜单</a></li>
+      </ul>
+</div>
+
+
+<form class="check_form" action="index.php?u=menu-{$_GET['action']}" method="post">
+	<input type="hidden" name="cid" value="{$data[cid]}">
+	<div class="h_a">基本属性（非技术人员请勿随意添加）</div>
+	<div class="table_full">
+		<table width="100%">
+			<tbody>
+				<tr>
+		            <th width="80">上级菜单</th>
+		            <td>
+		            	<select name="info[upid]">
+		            		<option value="0">一级菜单</option>
+		            		{loop:$menus $v $k}
+		            		<option value="{$v[cid]}" {if:$data[upid] == $v[cid]}selected{/if}>{$v[title]}</option>
+		            		{/loop}
+		            	</select>
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>菜单名称</th>
+		            <td><input type="text" id="menuname" value="{$data[title]}" name="info[title]"></td>
+		        </tr>
+		        <tr>
+		            <th>控制器</th>
+		            <td>
+						<input type="text" size="50" maxlength="30" id="controller" value="{$data[controller]}" name="info[controller]">
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>方法</th>
+		            <td>
+						<input type="text" size="50" maxlength="30" id="action" value="{$data[action]}" name="info[action]"><span class="gray">默认为 index</span>
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>参数</th>
+		            <td>
+						<input type="text" size="50" maxlength="100" id="param" value="{$data[param]}" name="info[param]"><span class="gray">示例：&cid=1&id=2</span>
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>菜单排序</th>
+		            <td><input type="text" size="3" value="{$data[listorder]}" name="info[listorder]"></td>
+		        </tr>
+		        <tr>
+		            <th>状态</th>
+		            <td>
+		            	<label>
+                             <input type="radio" name='info[status]' {if:$data[status] == 1}checked{/if} value="1">显示
+                         </label>
+                         <label>
+                             <input type="radio" name='info[status]' {if:$data[status] == 0}checked{/if} value="0">隐藏
+                         </label>
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>类型</th>
+		            <td>
+		            	<label>
+                             <input type="radio" name='info[type]' {if:$data[type] == 1}checked{/if} value="1">菜单+权限控制
+                         </label>
+                         <label>
+                             <input type="radio" name='info[type]' {if:$data[type] == 2}checked{/if} value="2">普通菜单
+                         </label>
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>菜单备注</th>
+		            <td>
+						<input type="text" size="80" value="{$data[content]}" name="info[content]">
+		            </td>
+		        </tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="position-bottom">
+    	<div class="btn_wrap_pd">             
+        	<button type="submit" class="btn btn_submit mr10">提交</button>
+      	</div>
+    </div>
+	
+</form>
+
+<script type="text/javascript">
+
+	oInitJson = {
+        tiptype:3
+    };
+    var oVdForm = $(".check_form").Validform(oInitJson);
+    oVdForm.addRule([
+        {
+            ele:"#menuname",
+            datatype:"*",
+            altercss:"tipColor",
+            nullmsg:"请输入菜单名称",
+            errormsg:"菜单名称不能为空"
+        }
+    ]);
+
+</script>
+{inc:footer.htm}

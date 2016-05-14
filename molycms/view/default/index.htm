@@ -1,0 +1,131 @@
+{inc:header.htm}
+
+	<!-- 幻灯片开始 -->
+	{block:slide orderway="1" id="1"}
+	<div class="banner">
+      <ul>
+      	{loop:$data $v}
+        <li><a href="{$v[link]}" title="{$v[title]}" target="_blank"><img src="{$v[pic]}" alt="{$v[title]}"></a></li>
+		{/loop}
+      </ul>
+    </div>
+    {/block}
+	<!-- 幻灯片结束 -->
+
+	<!--产品开始-->
+	{block:list mid="3" limit="10" orderby="time" titlenum="28"}
+	<div class="cont cf">
+		<h2 class="b2_tit">
+			<a class="more" href="{$data[cate_url]}">更多</a>
+			<b>产品展示</b>
+		</h2>
+		<div class="b2_cont piclist">
+			<a class="p_prev" href="javascript:;"></a>
+			<div class="p_cont">
+				<ul class="cf">
+					{loop:$data[list] $v}
+					<li><a href="{$v[url]}" title="{$v[title]}&#10;发表于:{$v[date]}" target="_blank"><img src="{$v[pic]}" /><u>{$v[subject]}</u></a></li>
+					{/loop}
+				</ul>
+			</div>
+			<a class="p_next" href="javascript:;"></a>
+		</div>
+	</div>
+	{/block}
+	<!--产品结束-->
+
+	<!--三列开始-->
+	<div class="cont c3">
+		<div class="c3_m cf">
+			{block:list_flag flag="1" limit="8" orderby="time" titlenum="28"}
+			<div class="c3_l">
+				<h2 class="b2_tit">
+					<b>推荐</b>
+				</h2>
+				<ul class="b2_cont lists cf">
+					{loop:$data[list] $v}<li><a href="{$v[url]}" title="{$v[title]}&#10;发表于:{$v[date]}" target="_blank">{$v[subject]}</a></li>{/loop}
+				</ul>
+			</div>
+			{/block}
+
+			{block:list_flag flag="2" limit="8" orderby="time" titlenum="28"}
+			<div class="c3_l">
+				<h2 class="b2_tit">
+					<b>热点</b>
+				</h2>
+				<ul class="b2_cont lists cf">
+					{loop:$data[list] $v}<li><a href="{$v[url]}" title="{$v[title]}&#10;发表于:{$v[date]}" target="_blank">{$v[subject]}</a></li>{/loop}
+				</ul>
+			</div>
+			{/block}
+
+			{block:list_flag flag="3" limit="8" orderby="time" titlenum="28"}
+			<div class="c3_l">
+				<h2 class="b2_tit">
+					<b>头条</b>
+				</h2>
+				<ul class="b2_cont lists cf">
+					{loop:$data[list] $v}<li><a href="{$v[url]}" title="{$v[title]}" target="_blank">{$v[subject]}</a></li>{/loop}
+				</ul>
+			</div>
+			{/block}
+		</div>
+	</div>
+	
+	<div class="cont c3">
+		<div class="c3_m cf">
+			{block:list mid="2" limit="8" orderby="id" titlenum="36"}
+			<div class="c3_l">
+				<h2 class="b2_tit">
+					<b>新闻中心</b>
+				</h2>
+				<ul class="b2_cont lists cf">
+					{loop:$data[list] $v}<li><a href="{$v[url]}" title="{$v[title]}" target="_blank">{$v[subject]}</a></li>{/loop}
+				</ul>
+			</div>
+			{/block}
+
+			
+			<div class="c3_l">
+				<h2 class="b2_tit">
+					<b>关于我们</b>
+				</h2>
+				<div class="b2_cont">
+					Maybecms使用php语言和mysql数据库开发，并且采用了主流的MVC设计模式，使系统框架结构清晰、易维护、模块化、扩展性更好，支持插件扩展，用户可自由扩展程序功能，采用基于KONGPHP框架的AOP插件机制，性能方面零损耗，相比传统的函数hook插件机制，性能更高、更简单、更强大。
+				</div>
+			</div>
+			
+
+			
+			<div class="c3_l">
+				<h2 class="b2_tit">
+					<b>联系我们</b>
+				</h2>
+				<div class="b2_cont">
+					<b>中山兰亭灯饰有限公司</b><br />
+					联系人：某先生<br />
+					Q　   Q：379559090<br />
+					邮　箱：379559090#qq.com (#替换@)<br />
+					地　址：广东省中山市横栏镇
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	<!--三列结束-->
+
+	<!--友情链接开始-->
+	{block:links}
+	<div class="cont cf">
+		<h2 class="b2_tit">
+			<b>友情链接</b>
+		</h2>
+		<ul class="b2_cont flink cf">
+			{loop:$data $v}<li><a href="{$v[url]}" target="_blank">{$v[name]}</a></li>{/loop}
+		</ul>
+	</div>
+	{/block}
+	<!--友情链接结束-->
+{inc:footer.htm}
+
+

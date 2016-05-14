@@ -1,0 +1,85 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=audit-index">投稿列表</a></li>
+      </ul>
+</div>
+<form method="post" id="myform" action="index.php?u=audit-index">
+	<div class="h_a">搜索</div>
+	<div class="search_type cc mb10">
+	    <div class="mb10"> 
+		    <span class="mr20">
+		    分类：{$cidhtml}
+		     标题：<input type="text" placeholder="文章标题" value="{$keyword}" name="keyword" class="length_2">
+		    <button class="btn">搜索</button>
+		      </span> 
+	      </div>
+	</div>
+	<div class="table_list">
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<td style="width:30px"></td>
+		        <td align='center' style="width:30px">ID</td>
+		        <td>标题</td>
+		        <td align='center' style="width:150px">作者</td>
+		        <td align='center' style="width:150px">发布时间</td>
+		        <td align='center' style="width:100px">状态</td>
+		        <td align='center' style="width:100px">操作</td>
+	    	</tr>
+		</thead>
+		<tbody>
+			
+	    	{if:empty($list)}
+	    		<tr class="no_data"><td colspan="8">暂无数据</td></tr>
+	    	{else}
+		    	{loop:$list $v}
+		            <tr>
+		            	<td><input type="checkbox" value="{$v[id]}" name="ids[]" class="inputcheckbox "></td>
+		            	<td align='center'>{$v[id]}</td>
+			        	<td>{$v[title]}{$v[flagstr]}</td>
+			        	<td align='center'>{$v[author]}</td>
+			        	<td align='center'>{php} echo date('Y-m-d H:i:s', $v['dateline']);{/php}</td>
+			        	<td align="center">
+		                {if:$v[status]}<span class="red">已拒绝</span>  <a href="javascript:show({$v[id]})">查看</a>{else}<span class="green">待审核</span>{/if}
+		                	<span id="refuse{$v[id]}" style="display:none;">{$v[refuse]}</span>
+		                </td>
+			        	<td align='center'>
+							<a href="index.php?u=audit-edit-cid-{$v[cid]}-id-{$v[id]}">审核</a>
+							<a class="J_ajax_del" href="index.php?u=audit-del-ajax-1-id-{$v[id]}">删除</a>
+						</td>
+		        	</tr>
+	        	{/loop}
+        	{/if}
+    	</tbody>
+	</table>
+	</div>
+	<div class="page_nav mt5">
+		<span>共 <font color="red">{$total}</font> 条</span>{$pages}
+	</div>
+	<div class="position-bottom">
+        <label class="mr20"><input type="checkbox" onclick="selectall('ids[]',this);">全选</label>                
+        <button data-action="index.php?u=audit-batch_del" type="button" class="btn btn_submit J_ajax_submit_btn">删除</button>
+    </div>
+</form>
+
+<script type="text/javascript">
+	//查看拒绝理由
+	function show(id){
+		var content = $("#refuse"+id).html();
+		art.dialog({
+            title: '拒绝理由',
+            content: content,
+            close: function () {
+                return true;
+            },
+            ok: function () {
+            	return true;
+            },
+            cancelVal: '关闭',
+            cancel: true
+        });
+	}
+</script>
+
+{inc:footer.htm}

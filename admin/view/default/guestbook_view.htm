@@ -1,0 +1,45 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=guestbook-index">留言列表</a></li>
+      </ul>
+</div>
+
+	<div class="h_a">基本属性</div>
+	<div class="table_full">
+		<table width="100%">
+			<tbody>
+				<tr>
+		            <th width="80">留言标题</th>
+		            <td><input type="text" disabled value="{$data[title]}"></td>
+		        </tr>
+		        <tr>
+		            <th>留言时间</th>
+		            <td><input type="text" disabled value="{php} echo date('Y-m-d H:i:s', $data['dateline']);{/php}"></td>
+		        </tr>
+		        <tr>
+		            <th>IP地址</th>
+		            <td><input type="text" disabled value="{php} echo long2ip($data['ip']);{/php}"></td>
+		        </tr>
+		        <tr>
+		            <th>称呼</th>
+		            <td><input type="text" disabled value="{$data[author]}"></td>
+		        </tr>
+		        <tr>
+		            <th>联系方式</th>
+		            <td><input type="text" disabled value="{$data[telephone]}"></td>
+		        </tr>
+		        <tr>
+		            <th>邮箱</th>
+		            <td><input type="text" disabled value="{$data[email]}"></td>
+		        </tr>
+		        <tr>
+		            <th>留言内容</th>
+		            <td><textarea style="width:95%;" disabled>{$data[content]}</textarea></td>
+		        </tr>
+			</tbody>
+		</table>
+	</div>
+
+
+{inc:footer.htm}

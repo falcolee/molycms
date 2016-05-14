@@ -1,0 +1,52 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=database-index">数据库管理</a></li>
+        <li><a href="index.php?u=database-backup">数据库备份</a></li>
+        <li><a href="index.php?u=database-recove">备份列表</a></li>
+    </ul>
+</div>
+<div class="table_list">
+	{loop:$list $val $table}
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+		        <td align="center"><strong>{$table}</strong>&nbsp;&nbsp;字段名</td>
+		        <td align="center" style="width:200px">类型</td>
+		        <td align="center" style="width:100px">是否为空</td>
+		        <td align="center" style="width:150px">是否为主键，索引</td>
+		        <td align="center" style="width:150px">默认值</td>
+		        <td align="center" style="width:100px">额外</td>
+	    	</tr>
+		</thead>
+		<tbody>
+			{loop:$val $v}
+				<tr>
+                   <td align="center">{$v[Field]}</td>
+                   <td align="center">{$v[Type]}</td>
+                   <td align="center">
+                       {$v[Null]}
+                   </td>
+                   <td align="center">
+                       {if:$v[Key] == 'PRI'}
+                       	主键
+                       {elseif:$v[Key] == 'MUL'}
+                       	索引
+                       {else}
+                       
+                       {/if}
+                   </td>
+                   <td align="center">
+                       {$v[Default]}
+                   </td>
+                   <td align="center">
+                       {$v[Extra]}
+                   </td>
+               </tr>
+			{/loop}
+		</tbody>
+	</table>
+	{/loop}
+</div>
+
+{inc:footer.htm}

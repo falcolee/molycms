@@ -1,0 +1,115 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li><a href="index.php?u=models-index">内容模型列表</a></li>
+        <li><a href="index.php?u=models-dlist-id-{$model_data['mid']}">{$model_data['name']}</a></li>
+        <li class="current"><a href="index.php?u=models-fadd">添加字段</a></li>
+    </ul>
+</div>
+
+
+<form class="check_form" action="index.php?u=models-{$_GET['action']}" method="post">
+    <input type="hidden" name="info[id]" value="{$data[id]}">
+    <input type="hidden" name="info[model]" value="{$data[model]}">
+
+    <div class="h_a">基本属性</div>
+    <div class="table_full">
+        <table width="100%">
+            <tbody>
+            <tr>
+                <th width="150">字段标识</th>
+                <td><input type="text" id="name" value="{$data[name]}" name="info[name]" maxlength="20"></td>
+                <td><label>*字段名称，3-20位字母。</label></td>
+            </tr>
+            <tr>
+                <th>字段名称</th>
+                <td><input type="text" id="description" value="{$data[description]}" name="info[description]"
+                           maxlength="40"></td>
+                <td><label>*有意义的名称，最大40个字符。</label></td>
+            </tr>
+            <tr>
+                <th>字段类型</th>
+                <td>{$input[type]}</td>
+                <td><label>*选择一个适当的字段类型。</label></td>
+            </tr>
+            <tr>
+                <th>字段长度</th>
+                <td><input size="5" type="text" id="length" value="{$data[length]}" name="info[length]"></td>
+                <td><label>设置一个适当的字段长度,可以不填写，参看默认值.</label></td>
+            </tr>
+            <tr>
+                <th>数据源</th>
+                <td><input type="text" id="source" value="{$data[source]}" name="info[source]"></td>
+                <td><label>可以为某些字段类型提供数据源或者默认值。</label></td>
+            </tr>
+            <tr>
+                <th>显示尺寸</th>
+                <td>
+                    宽：<input type="text" id="width" value="{$data[width]}" name="info[width]"><br/>
+                    高：<input type="text" id="height" value="{$data[height]}" name="info[height]">
+                </td>
+                <td><label>*表单控件的显示的宽度,单位为px</label><br/>
+                    <label>*表单控件的显示的高度,单位为px</label>
+                </td>
+            </tr>
+            <tr>
+                <th> 验证规则</th>
+                <td>{$input[rules]}</td>
+            </tr>
+            <tr>
+                <th> 规则说明</th>
+                <td><input type="text" id="ruledescription" value="{$data[ruledescription]}"
+                           name="info[ruledescription]"></td>
+            </tr>
+            <tr>
+                <th> 管理选项</th>
+                <td>
+                    是否加入搜索：{$input[searchable]}<br/>
+                    是否列表显示：{$input[listable]}<br/>
+                    是否允许编辑：{$input[editable]}
+                </td>
+            </tr>
+            <tr>
+                <th>排序</th>
+                <td><input size="5" type="text" id="listorder" value="{$data[listorder]}" name="info[listorder]"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="btn_wrap">
+        <div class="btn_wrap_pd">
+            <button type="submit" class="btn btn_submit mr10">提交</button>
+        </div>
+    </div>
+
+</form>
+
+<script type="text/javascript">
+
+    oInitJson = {
+        tiptype: 3,
+        beforeSubmit: function () {
+
+        }
+    };
+    var oVdForm = $(".check_form").Validform(oInitJson);
+    oVdForm.addRule([
+        {
+            ele: "#description",
+            datatype: "*",
+            altercss: "tipColor",
+            nullmsg: "请输入名称",
+            errormsg: "名称输入错误"
+        },
+        {
+            ele: "#name",
+            datatype: "*",
+            altercss: "tipColor",
+            nullmsg: "请输入标识",
+            errormsg: "标识输入错误"
+        }
+    ]);
+
+
+</script>
+{inc:footer.htm}

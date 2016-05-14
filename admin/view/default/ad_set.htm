@@ -1,0 +1,186 @@
+{inc:header.htm}
+<script type="text/javascript" src="{$C[admin_static]}js/MyDate/WdatePicker.js"></script>
+<div class="nav">
+    <ul class="cc">
+        <li><a href="index.php?u=ad-index">广告列表</a></li>
+        <li class="current"><a href="index.php?u=ad-add">添加广告</a></li>
+      </ul>
+</div>
+
+
+<form class="check_form" action="index.php?u=ad-{$_GET['action']}" method="post">
+	<div class="h_a">基本属性</div>
+	<input type="hidden"  name="info[id]" value="{$data[id]}" />
+	<div class="table_full">
+		<table width="100%">
+			<tbody>
+				<tr>
+		            <th width="80">广告名称</th>
+		            <td><input type="text" id="adname" value="{$data[adname]}" name="info[adname]" maxlength="50"></td>
+		        </tr>
+		        <tr>
+					<th>时间限制</th>
+					<td>
+						<input name="info[timeset]" value="0" {if:$data[timeset] ==0}  checked{/if} type="radio"> 关闭&nbsp;&nbsp;&nbsp;&nbsp;
+				  		<input name="info[timeset]" value="1" {if:$data[timeset] ==1}  checked{/if} type="radio"> 开启
+					</td>
+				</tr>
+				<tr>
+		            <th>开始时间</th>
+		            <td><input type="text" class="Wdate" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="info[starttime]" value="{$data[starttime]}" size="30" /><span class="gray">开启时间限制有效</span></td>
+		        </tr>
+		        <tr>
+		            <th>结束时间</th>
+		            <td><input type="text" class="Wdate" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="info[endtime]" value="{$data[endtime]}" size="30" /><span class="gray">开启时间限制有效</span></td>
+		        </tr>
+		        <tr>
+		            <th>广告内容</th>
+		            <td>
+		            	{if:$_GET['action']=='add'}
+		            	<input name="normbody[style]" type="hidden" value="code" id="adstyle">
+		            	<div class="typetab">
+			                <ul id="changeTab">
+			                  <li id="t_code" class="act">代码</li>
+			                  <li id="t_txt">文字</li>
+			                  <li id="t_img">图片</li>
+			                  <li id="t_flash">Flash</li>
+			                </ul>
+			                <div style="clear:both"></div>
+			            </div>
+			            <div id="advert">
+			            
+			            </div>
+			            {else}
+			            <textarea name="info[normbody]" rows="10" style="width:80%;height:100">{$data[normbody]}</textarea>
+			            {/if}
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>过期显示内容</th>
+		            <td>
+		            	<textarea name="info[expbody]" rows="10" style="width:80%;height:100">{$data[expbody]}</textarea>
+		            </td>
+		        </tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="btn_wrap">
+    	<div class="btn_wrap_pd">             
+        	<button type="submit" class="btn btn_submit mr10">添加</button>
+      	</div>
+    </div>
+	
+</form>
+<div style="display:none" id="formtxt">
+    <div class="content" id="code" style="display:none;">
+      <table width="80%" cellpadding="3" cellspacing="1" class="i_table">
+        <tr class="b">
+          <td width="20%"><b>广告代码:</b><br>
+            请填写广告代码，支持html代码</td>
+          <td><textarea name="normbody[htmlcode]" rows="5" cols="60"></textarea></td>
+        </tr>
+      </table>
+    </div>
+    <div class="content" id="txt" style="display:none;">
+      <table width="80%" cellpadding=3 cellspacing=1 class='i_table'>
+        <tr>
+          <td class="b" width="20%"><b>文字内容*</b></td>
+          <td class="b"><input type="text" size="70" name="normbody[title]" value="" /></td>
+        </tr>
+        <tr>
+          <td class="b"><b>文字链接*</b></td>
+          <td class="b"><input type="text" size="70" name="normbody[link]" value="http://" /></td>
+        </tr>
+        <tr>
+          <td class="b"><b>文字颜色</b>(例如:red,#EF8684)</td>
+          <td class="b"><input type="text" size="10" name="normbody[color]" value="" /></td>
+        </tr>
+        <tr>
+          <td class="b"><b>文字大小</b>(例如:4px,12px)</td>
+          <td class="b"><input type="text" size="10" name="normbody[size]" value="" /></td>
+        </tr>
+      </table>
+    </div>
+    <div class="content" id="img" style="display:none;">
+      <table width="80%" cellpadding=3 cellspacing=1 class='i_table'>
+        <tr>
+          <td class="b" width="20%"><b>图片地址*</b></td>
+          <td class="b"><input type="text" size="40" name="normbody[url]" value="http://" /></td>
+        </tr>
+        <tr>
+          <td class="b"><b>图片链接*</b></td>
+          <td class="b"><input type="text" size="40" name="normbody[link]" value="http://" /></td>
+        </tr>
+        <tr>
+          <td class="b"><b>图片宽度</b></td>
+          <td class="b"><input type="text" size="10" name="normbody[width]" value="" /></td>
+        </tr>
+        <tr>
+          <td class="b"><b>图片高度</b></td>
+          <td class="b"><input type="text" size="10" name="normbody[height]" value="" /></td>
+        </tr>
+        <tr>
+          <td class="b"><b>图片描述</b></td>
+          <td class="b"><input type="text" size="40" name="normbody[description]" value="" /></td>
+        </tr>
+      </table>
+    </div>
+    <div class="content" id="flash" style="display:none;">
+      <table width="80%" cellpadding=3 cellspacing=1 class='i_table'>
+        <tr>
+          <td class="b" width="20%"><b>flash链接*</b></td>
+          <td class="b"><input type="text" size="40" name="normbody[link]" value="http://" /></td>
+        </tr>
+        <tr>
+          <td class="b"><b>flash宽度</b></td>
+          <td class="b"><input type="text" size="40" name="normbody[width]" value="" /></td>
+        </tr>
+        <tr>
+          <td class="b"><b>flash高度</b></td>
+          <td class="b"><input type="text" size="40" name="normbody[height]" value="" /></td>
+        </tr>
+      </table>
+    </div>
+    
+</div>
+<script type="text/javascript">
+	(function($){
+		function showcode(idName){
+			$("#advert").html("").html($("#formtxt>#"+idName).html());
+			$("#adstyle").val(idName);
+		}
+		
+		showcode('code');
+	
+		$("#changeTab>li").click(function()
+		{
+			var tabLi = $(this);
+			var thistab = tabLi[0].id;
+			$(".content").each(function()
+			{
+				if("t_" + $(this)[0].id == thistab)
+				{ 
+				    $("#changeTab>li").removeClass("act");
+				    $("#t_" + $(this)[0].id).addClass("act");
+				    showcode($(this)[0].id);
+				}
+			})
+		})
+	})(jQuery);
+
+	oInitJson = {
+        tiptype:3
+    };
+    var oVdForm = $(".check_form").Validform(oInitJson);
+    oVdForm.addRule([
+        {
+            ele:"#adname",
+            datatype:"*",
+            altercss:"tipColor",
+            nullmsg:"请输入广告名称",
+            errormsg:"请输入广告名称"
+        }
+    ]);
+
+</script>
+{inc:footer.htm}

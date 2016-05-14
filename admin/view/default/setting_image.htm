@@ -1,0 +1,98 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="javascript:;">图片设置</a></li>
+    </ul>
+</div>
+	
+<form action="index.php?u=setting-image-ajax-1" method="post">
+	<div class="h_a">基本属性</div>
+	<div class="table_full">
+		<table width="100%">
+			<tbody>
+				<tr>
+		            <th width="80">文章缩略图</th>
+		            <td>
+		            	{$input[thumb_article_w]} X {$input[thumb_article_h]}
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>产品缩略图</th>
+		            <td>
+		            	{$input[thumb_product_w]} X {$input[thumb_product_h]}
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>图集缩略图</th>
+		            <td>
+		            	{$input[thumb_photo_w]} X {$input[thumb_photo_h]}
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>裁剪方式</th>
+		            <td>
+		            	{$input[thumb_type]}
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>缩略图质量</th>
+		            <td>
+		            	{$input[thumb_quality]}
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>水印的位置</th>
+		            <td>
+		            	<table style="width:210px">
+							<tr>
+								<td colspan="2"><input class="radio" type="radio" name="watermark_pos" value="0"{if:$cfg['watermark_pos']==0} checked=""{/if}> 关闭</td>
+								<td><input class="radio" type="radio" name="watermark_pos" value="10"{if:$cfg['watermark_pos']==10} checked=""{/if}> 随机</td>
+							</tr>
+							<tr>
+								<td><input class="radio" type="radio" name="watermark_pos" value="1"{if:$cfg['watermark_pos']==1} checked=""{/if}> #1</td>
+								<td><input class="radio" type="radio" name="watermark_pos" value="2"{if:$cfg['watermark_pos']==2} checked=""{/if}> #2</td>
+								<td><input class="radio" type="radio" name="watermark_pos" value="3"{if:$cfg['watermark_pos']==3} checked=""{/if}> #3</td>
+							</tr>
+							<tr>
+								<td><input class="radio" type="radio" name="watermark_pos" value="4"{if:$cfg['watermark_pos']==4} checked=""{/if}> #4</td>
+								<td><input class="radio" type="radio" name="watermark_pos" value="5"{if:$cfg['watermark_pos']==5} checked=""{/if}> #5</td>
+								<td><input class="radio" type="radio" name="watermark_pos" value="6"{if:$cfg['watermark_pos']==6} checked=""{/if}> #6</td>
+							</tr>
+							<tr>
+								<td><input class="radio" type="radio" name="watermark_pos" value="7"{if:$cfg['watermark_pos']==7} checked=""{/if}> #7</td>
+								<td><input class="radio" type="radio" name="watermark_pos" value="8"{if:$cfg['watermark_pos']==8} checked=""{/if}> #8</td>
+								<td><input class="radio" type="radio" name="watermark_pos" value="9"{if:$cfg['watermark_pos']==9} checked=""{/if}> #9</td>
+							</tr>
+						</table>
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>水印透明度</th>
+		            <td>
+		            	{$input[watermark_pct]}
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>水印的路径</th>
+		            <td>
+		            	可替换 <font color="BD0A01">static/img/watermark.png</font> 文件以实现您自己的水印效果
+		            </td>
+		        </tr>
+	       	</tbody>
+       	</table>
+   </div>
+   <div class="btn_wrap">
+   		<div class="btn_wrap_pd">             
+       		<button type="submit" class="btn btn_submit mr10">保存</button>
+     	</div>
+   </div>
+</form>
+	
+
+<script type="text/javascript">
+maybeAjax.submit("form:first", function(data){
+	maybeAjax.alert(data);
+	if(window.maybeData.err==0) setTimeout("window.location.reload()",1000);
+});
+</script>
+{inc:footer.htm}

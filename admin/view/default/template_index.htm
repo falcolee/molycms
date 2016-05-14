@@ -1,0 +1,41 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=template-index">模板管理</a></li>
+        <li><a href="index.php?u=template-add">添加模板</a></li>
+      </ul>
+</div>
+
+	<div class="table_list">
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+		        <td>文件名(<span class="red">文件名不能有汉字或中划线</span>)</td>
+		        <td>文件大小</td>
+		        <td style="width:150px">修改时间</td>
+		        <td style="width:100px">操作</td>
+	    	</tr>
+		</thead>
+		<tbody>
+			
+	    	{if:empty($list)}
+	    		<tr class="no_data"><td colspan="4">暂无数据</td></tr>
+	    	{else}
+		    	{loop:$list $v}
+		            <tr>
+		            	<td>{$v[filename]}</td>
+			        	<td>{$v[filesize]}</td>
+			        	<td>{php}echo date('Y-m-d H:i:s',$v['filemtime']);{/php}</td>
+						<td>
+							<a class="btn" href="index.php?u=template-edit-file-{$v[filename]}">编辑</a>
+							<a class="J_ajax_del btn" href="index.php?u=template-del-ajax-1-file-{$v[filename]}">删除</a>
+						</td>
+		        	</tr>
+	        	{/loop}
+        	{/if}
+    	</tbody>
+	</table>
+	</div>
+
+
+{inc:footer.htm}

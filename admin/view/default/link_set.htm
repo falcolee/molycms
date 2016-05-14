@@ -1,0 +1,94 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li><a href="index.php?u=link-index">友情链接列表</a></li>
+        <li class="current"><a href="index.php?u=link-add">添加链接</a></li>
+      </ul>
+</div>
+
+
+<form class="check_form" action="index.php?u=link-{$_GET['action']}" method="post">
+	<input type="hidden" name="id" value="{$data[id]}">
+	<div class="h_a">基本属性</div>
+	<div class="table_full">
+		<table width="100%">
+			<tbody>
+			<tr>
+		            <th width="80">标题</th>
+		            <td><input type="text" id="title" value="{$data[title]}" name="info[title]" maxlength="50"></td>
+		        </tr>
+		        <tr>
+		            <th>分类</th>
+		            <td>
+                                {$typehtml}<span class="red">*</span>
+                            </td>
+		        </tr>
+		        <tr>
+		            <th>链接</th>
+		            <td><input size="50" type="text" id="url" value="{$data[url]}" name="info[url]"></td>
+		        </tr>                        
+		        <tr>
+		            <th>备注</th>
+		            <td>
+				<textarea  name="info[remark]" style="width:98%;">{$data[remark]}</textarea>
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>状态</th>
+                            <td>启用<input type="radio" name="info[status]" value="1" {if:$data[status] ==1} checked=""{/if}>
+                                <font color="red">禁用</font><input type="radio" name="info[status]" value="0" {if:$data[status] ==0} checked=""{/if}>
+                            </td>
+		        </tr>
+		        <tr>
+		            <th>顺序</th>
+		            <td>
+				<input type="text" id="listorder" value="{$data[listorder]}" name="info[listorder]">
+		            </td>
+		        </tr>                        
+			</tbody>
+		</table>
+	</div>
+	<div class="btn_wrap">
+    	<div class="btn_wrap_pd">             
+        	<button type="submit" class="btn btn_submit mr10">提交</button>
+      	</div>
+    </div>
+	
+</form>
+
+<script type="text/javascript">
+
+	oInitJson = {
+        tiptype:3,
+        beforeSubmit:function(){
+        	var url = $("#url").val();
+        	if( url ){
+        		var pattern = /^(\w+:\/\/)?\w+(\.\w+)+.*$/;
+        		if(!pattern.test(url)){
+        			alert("请输入正确格式的URL！");
+        			return false;
+        		}
+        	}
+        }
+    };
+    var oVdForm = $(".check_form").Validform(oInitJson);
+    oVdForm.addRule([
+        {
+            ele:"#type",
+            datatype:"/^[0-9]*[1-9][0-9]*$/",
+            altercss:"tipColor",
+            nullmsg:"请选择分类",
+            errormsg:"请选择分类"
+        },
+        {
+            ele:"#title",
+            datatype:"*",
+            altercss:"tipColor",
+            nullmsg:"请输入标题",
+            errormsg:"标题不能为空"
+        }
+    ]);
+
+ 	
+</script>
+{inc:footer.htm}

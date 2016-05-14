@@ -1,0 +1,71 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li><a href="index.php?u=block-index">碎片列表</a></li>
+        <li class="current"><a href="index.php?u=block-add">添加碎片</a></li>
+      </ul>
+</div>
+
+
+<form class="check_form" action="index.php?u=block-{$_GET['action']}" method="post">
+	<input type="hidden" name="id" value="{$data[id]}">
+	<div class="h_a">基本属性</div>
+	<div class="table_full">
+		<table width="100%">
+			<tbody>
+				<tr>
+		            <th width="80">碎片名称</th>
+		            <td><input type="text" id="title" value="{$data[title]}" name="info[title]" maxlength="50"></td>
+		        </tr>
+		        <tr>
+		            <th>更多URL</th>
+		            <td><input size="50" type="text" id="url" value="{$data[url]}" name="info[url]"><span class="gray">示例：http://www.baidu.com</span></td>
+		        </tr>
+		        <tr>
+		            <th>碎片内容</th>
+		            <td>
+						<textarea id="page_content" name="info[content]" style="width:98%;">{$data[content]}</textarea>
+		            </td>
+		        </tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="btn_wrap">
+    	<div class="btn_wrap_pd">             
+        	<button type="submit" class="btn btn_submit mr10">提交</button>
+      	</div>
+    </div>
+	
+</form>
+
+<script type="text/javascript">
+
+	oInitJson = {
+        tiptype:3,
+        beforeSubmit:function(){
+        	var url = $("#url").val();
+        	if( url ){
+        		var pattern = /^(\w+:\/\/)?\w+(\.\w+)+.*$/;
+        		if(!pattern.test(url)){
+        			alert("请输入正确格式的URL！");
+        			return false;
+        		}
+        	}
+        }
+    };
+    var oVdForm = $(".check_form").Validform(oInitJson);
+    oVdForm.addRule([
+        {
+            ele:"#title",
+            datatype:"*",
+            altercss:"tipColor",
+            nullmsg:"请输入碎片名称",
+            errormsg:"碎片名称不能为空"
+        }
+    ]);
+
+ 	
+</script>
+{hook:admin_other_after.htm}
+
+{inc:footer.htm}

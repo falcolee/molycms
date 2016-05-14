@@ -1,0 +1,109 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0; padding: 0; }
+fieldset, img {border: 0;}
+table {border-collapse: collapse; border-spacing: 0;}
+ol, ul {list-style: none;}
+address, caption, cite, code, dfn, em, strong, th, var {font-weight: normal;font-style: normal;}
+caption, th {text-align: left;}
+h1, h2, h3, h4, h5, h6 {font-weight: normal;font-size: 100%;}
+q:before, q:after {content:'';}
+abbr, acronym {border: 0;}
+input,label{vertical-align: middle;}
+.w98{width:98%;}
+.mt5{margin-top:5px;}
+.mt10{margin-top:10px;}
+/* 要注意表单元素并不继承父级 font 的问题 */
+body,button,input,select,textarea{font:12px/18px Tahoma,Helvetica,"\5b8b\4f53",san-serif;}
+input,select,textarea{font-size:100%;}
+.tl{text-align: left;} .tc{text-align: center;} .tr{text-align: right;}
+.cf:after {
+    clear: both;
+    content: "";
+    display: block;
+    height: 0;
+    overflow: hidden;
+}
+.table_list table tbody tr:hover {
+    background: none repeat scroll 0 0 #fff;
+}
+.pad-10 {
+    overflow: hidden;
+    padding: 10px;
+}
+
+/*表单验证*/
+.Validform_checktip{
+	margin-left:8px;
+	line-height:20px;
+	height:20px;
+	overflow:hidden;
+	color:#999;
+	font-size:12px;
+}
+.Validform_right{
+	color:#71b83d;
+	padding-left:20px;
+	background:url(../images/yes.gif) no-repeat left center;
+}
+.Validform_wrong{
+	color:red;
+	padding-left:20px;
+	white-space:nowrap;
+	background:url(../images/no.gif) no-repeat left center;
+}
+.Validform_loading{
+	padding-left:20px;
+	background:url(../images/onLoad.gif) no-repeat left center;
+}
+.Validform_error{
+	background-color:#ffe7e7;
+}
+#Validform_msg{color:#7d8289; font: 12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif; width:280px; -webkit-box-shadow:2px 2px 3px #aaa; -moz-box-shadow:2px 2px 3px #aaa; background:#fff; position:absolute; top:0px; right:50px; z-index:99999; display:none;filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#999999'); box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);}
+#Validform_msg .iframe{position:absolute; left:0px; top:-1px; z-index:-1;}
+#Validform_msg .Validform_title{line-height:25px; height:25px; text-align:left; font-weight:bold; padding:0 8px; color:#fff; position:relative; background-color:#999;
+background: -moz-linear-gradient(top, #999, #666 100%); background: -webkit-gradient(linear, 0 0, 0 100%, from(#999), to(#666)); filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#999999', endColorstr='#666666');}
+#Validform_msg a.Validform_close:link,#Validform_msg a.Validform_close:visited{line-height:22px; position:absolute; right:8px; top:0px; color:#fff; text-decoration:none;}
+#Validform_msg a.Validform_close:hover{color:#ccc;}
+#Validform_msg .Validform_info{padding:8px;border:1px solid #bbb; border-top:none; text-align:left;}
+
+.p .cc .warning{border-width:1px}
+.warning{border:3px solid #78C370;padding:8px;line-height:24px;border-radius:4px;box-shadow:2px 3px 6px #000;overflow:hidden}
+.warning i{width:24px;height:24px;margin-right:8px;display:inline;float:left}
+.bnote{border-color:#E9790B;background:#FFF5DE}
+.bnote i{background:url(../images/tips.gif) 0 -52px no-repeat}
+
+/*Ajax*/
+.ajaxoverlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:1001;width:100%;height:100%;background:#aaa;filter:Alpha(opacity=30);opacity:0.3}
+.ajaxtips{position:fixed;z-index:1002}
+.ajaximg{width:48px;height:48px;background:url(../images/load.gif) center no-repeat}
+.ajaxbox,.warning{border:3px solid #235179;padding:8px;line-height:24px;border-radius:4px;box-shadow:2px 3px 6px #000;overflow:hidden}
+.ajaxbox i,.warning i{width:24px;height:24px;margin-right:8px;display:inline;float:left}
+.ajaxbox u{margin-left:8px;color:#00C;cursor:pointer}
+.bnote{border-color:#235179;background:#FFF5DE}
+.bnote i{background:url(../images/tips.gif) 0 -52px no-repeat}
+.btrue{background:#EEFFED}
+.btrue i{background:url(../images/tips.gif) 0 -26px no-repeat}
+.bfalse{border-color:#235179;background:#EEFFED}
+.bfalse i{background:url(../images/tips.gif) no-repeat}
+.ajaxbox .cf{padding:5px 10px 0}
+.ajaxbox .cf .but3{float:right;margin-right:8px;}
+.ajaxbox .cf .but1{float:right;margin-right:8px}
+
+/*dialog*/
+#maybedialog{position:fixed;top:0;left:0;z-index:1001;width:0;height:0;display:none}
+#maybedialog #twoverlay{position:absolute;top:0;left:0;width:100%;height:100%;background:#aaa;filter:Alpha(opacity=30);opacity:0.3}
+#maybedialog #maybedialogbox{width:500px;height:300px;background:#fff;border:1px solid #d8d8d8;border-radius:4px;position:absolute;top:0;left:0}
+#maybedialog_title{height:30px;line-height:30px;border-bottom:1px solid #d8d8d8;border-radius:4px 4px 0 0;padding:0 5px 0 10px;cursor:move}
+#maybedialog_title span{float:left;display:inline;font-weight:bold;font-size:13px;color:#222}
+#maybedialog_title a{float:right;display:inline;margin-top:5px;text-indent:-99px;width:21px;height:20px;overflow:hidden;background:url(../images/dialog.gif) -21px 0 no-repeat}
+#maybedialog_title a:hover{background-position:-42px 0}
+#maybedialog_content{position:absolute;top:31px;bottom:32px;width:100%;overflow:auto}
+#maybedialog_button{position:absolute;bottom:0;width:100%;height:27px;padding:5px 0;border-top:1px solid #d8d8d8;border-radius:0 0 4px 4px}
+#maybedialog_title,#maybedialog_button{background:#ddd;background:-webkit-linear-gradient(top,#d8d8d8,#d8d8d8);background:-moz-linear-gradient(top,#EDF5F7,#D9EBEE);background:-o-linear-gradient(top,#EDF5F7,#D9EBEE)}
+#maybedialog_resizable_n{cursor:n-resize;z-index:900;position:absolute;left:0;top:-5px;width:100%;height:8px}
+#maybedialog_resizable_e{cursor:e-resize;z-index:900;position:absolute;right:-5px;top:0;width:8px;height:100%}
+#maybedialog_resizable_s{cursor:s-resize;z-index:900;position:absolute;left:0;bottom:-5px;width:100%;height:8px}
+#maybedialog_resizable_w{cursor:w-resize;z-index:900;position:absolute;left:-5px;top:0;width:8px;height:100%}
+#maybedialog_resizable_nw{cursor:nw-resize;z-index:901;position:absolute;left:-5px;top:-5px;width:10px;height:10px}
+#maybedialog_resizable_ne{cursor:ne-resize;z-index:901;position:absolute;right:-5px;top:-5px;width:10px;height:10px}
+#maybedialog_resizable_sw{cursor:sw-resize;z-index:901;position:absolute;left:-5px;bottom:-5px;width:10px;height:10px}
+#maybedialog_resizable_se{cursor:se-resize;z-index:901;position:absolute;right:-5px;bottom:-5px;width:17px;height:17px;background:url(../images/dialog.gif) no-repeat}

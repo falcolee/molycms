@@ -1,0 +1,59 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=cates-index">分类模型列表</a></li>
+        <li><a href="index.php?u=cates-add">添加模型</a></li>
+    </ul>
+</div>
+
+	<div class="table_list">
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+                            <td width=50  align="left">ID</td>
+                            <td>分类模型标识</td>
+                            <td>分类模型名称</td>
+                            <td>分类模型层级</td>
+                            <td width=100>是否使用上传附件</td>
+                            <td align="center">操作</td>
+	    	</tr>
+		</thead>
+		<tbody>
+			
+	    	{if:empty($list)}
+	    		<tr class="no_data"><td colspan="5">暂无数据</td></tr>
+	    	{else}
+		    	{loop:$list $v}
+		            <tr>
+		            	<td>{$v[id]}</td>
+                                        <td>{$v[name]}</td>
+			        	                <td>{$v[description]}</td>
+                                        <td>{$v[level]}</td>
+                                        <td>{if:$v[hasattach]}启用{else}禁用{/if}</td>
+			        	<td align="center">
+							<a class="btn" href="index.php?u=cates-edit-id-{$v[id]}">编辑</a>
+							<a class="btn" href="javascript:del({$v[id]});">删除</a>
+                            <a class="btn" href="index.php?u=cates-dlist-id-{$v[id]}">字段管理</a>
+                            <a class="btn" href="index.php?u=content-index-id-{$v[id]}">列表管理</a>
+						</td>
+		        	</tr>
+	        	{/loop}
+        	{/if}
+    	</tbody>
+	</table>
+	</div>
+	<div class="page_nav">
+		<span>共 <font color="red">{$total}</font> 条</span>{$pages}
+	</div>
+<script type="text/javascript">
+//删除
+function del(id) {
+	maybeAjax.confirm("删除不可恢复，确定删除？", function(){
+		maybeAjax.postd("index.php?u=cates-del-ajax-1", {"id":id}, function(data){
+			maybeAjax.alert(data);
+			if(window.maybeData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+</script>
+{inc:footer.htm}

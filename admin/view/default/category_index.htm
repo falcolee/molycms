@@ -1,0 +1,286 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=category-index">分类管理</a></li>
+        <li><a href="javascript:add();">添加分类</a></li>
+      </ul>
+</div>
+<form method="post" id="myform" action="index.php?u=category-listorder">
+	<div class="table_list">
+		<table cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<td width="40">排序值</td>
+			        <td align='center' style="width:30px">CID</td>
+			        <td>栏目名称</td>
+		            <td align='center'>栏目别名</td>
+					<td align='center' width="80px;">所属模型</td>
+					<td align='center' width="80px;">栏目类型</td>
+					<td align='center' width="80px;">内容数</td>
+					<td align='center' width="150px;">操作</td>
+		    	</tr>
+			</thead>
+			<tbody>
+				{$categorys}
+	    	</tbody>
+		</table>
+	</div>
+	<div class="btn_wrap_pd mt5">                
+	    <button data-action="index.php?u=category-listorder" type="button" class="btn btn_submit J_ajax_submit_btn">排序</button>
+	</div>
+</form>
+<script id="set_dialog" type="text/html" _mid="2" _type="0" _upid="0">
+	<form method="post" id="setform" action="index.php?u=category-set-ajax-1">
+		<input name="cid" type="hidden" />
+		<div class="table_full">
+		<table width="100%">
+			<tr>
+				<th width="80"><div>分类模型</div></th>
+				<td class="col">
+					{loop:$mod_name $v $k}<label><input class="mr3" name="mid" type="radio" value="{$k}">{$v}</label>{/loop}
+				</td>
+			</tr>
+			<tr id="i_type">
+				<th class="th">分类类型</th>
+				<td class="col">
+					<label title="可发表内容，下级不可建分类"><input class="mr3" name="type" type="radio" value="0">列表</label>
+					<label title="不可发表内容，下级可建分类"><input class="mr3" name="type" type="radio" value="1">频道（友情提示：频道分类下才能建子分类）</label>
+				</td>
+			</tr>
+			<tr id="i_upid">
+				<th class="th">所属频道</th>
+				<td class="col"><select name="upid" id="upid"><option value="0">无</option></select></td>
+			</tr>
+			<tr>
+				<th class="th">分类名称<font color="red">*</font></th>
+				<td class="col"><input name="name" type="text" class="input" /></td>
+			</tr>
+			<tr>
+				<th class="th">分类别名<font color="red">*</font></th>
+				<td class="col"><input name="alias" type="text" class="input" /></td>
+			</tr>
+			<tr>
+				<th class="th">分类描述</th>
+				<td class="col"><input name="intro" style="width:600px;" type="text" class="input" /></td>
+			</tr>
+			<tr id="i_page_content" style="display:none">
+				<th class="th">单页内容</th>
+				<td class="col"><textarea style="width:98%;" id="page_content" name="page_content" class="input w3 w4"></textarea></td>
+			</tr>
+			<tr>
+				<th class="th">排列顺序</th>
+				<td class="col"><input name="orderby" value="0" type="number" class="input" /></td>
+			</tr>
+
+			<tr><td colspan="2"><div class="tb_t">SEO设置</div></td></tr>
+			<tr>
+				<th class="th">SEO标题</th>
+				<td class="col"><input class="input" style="width:500px;" type="text" name="seo_title" /></td>
+			</tr>
+			<tr>
+				<th class="th">SEO关键字</th>
+				<td class="col"><input class="input" style="width:500px;" type="text" name="seo_keywords" /></td>
+			</tr>
+			<tr>
+				<th class="th">SEO描述</th>
+				<td class="col"><input class="input" style="width:600px;" type="text" name="seo_description" /></td>
+			</tr>
+
+			<tr><td colspan="2"><div class="tb_t">模板设置</div></td></tr>
+			<tr id="i_cate_tpl">
+				<th class="th">列表模板</th>
+				<td class="col"><input class="input" type="text" name="cate_tpl" id="cate_tpl" /></td>
+			</tr>
+			<tr id="i_show_tpl">
+				<th class="th">内容模板</th>
+				<td class="col"><input class="input" type="text" name="show_tpl" id="show_tpl" /></td>
+			</tr>
+
+			{hook:admin_category_index_set_dialog_after.htm}
+
+		</table>
+		</div>
+	</form>
+</script>
+
+{hook:admin_category_index_after.htm}
+
+<script type="text/javascript">
+var models = {$models};
+function add(){
+	// 加载会话框
+	load_dialog();
+	$("#maybedialog_title span").html("增加分类");
+
+	// 初始化表单
+	var mid = $("#set_dialog").attr("_mid");
+	var type = $("#set_dialog").attr("_type");
+	var upid = $("#set_dialog").attr("_upid");
+
+	$("#maybedialog input[name='mid']").val([mid]);
+	$("#maybedialog input[name='type']").val([type]);
+	setFormVal(mid, type);
+
+	// 加载所属频道
+	loadCategoryUpid(mid, upid);
+}
+
+//加载对话框 (增加或编辑时使用)
+function load_dialog() {
+	var H = Math.max(350, document.documentElement.clientHeight-30);
+	$.maybeDialog("remove");
+	$.maybeDialog({content:$("#set_dialog").html(), resizable:true, open:true, modal:false, width:900, height:H, minW:700});
+
+	// 增加关闭窗口事件
+	$("#maybedialog_title a,#maybedialog_button .close").click(remove_dialog);
+
+	// 改变分类模型
+	$("#maybedialog input[name='mid']").change(function(){
+		var mid = $(this).val();
+		setFormVal(mid, $("#maybedialog").attr("type"));
+
+		// 加载所属频道
+		loadCategoryUpid(mid);
+	});
+
+	// 改变分类类型
+	$("#maybedialog input[name='type']").change(function(){
+		setFormVal($("#maybedialog").attr("mid"), $(this).val());
+	});
+
+	// 触发提交 (添加 & 编辑)
+	$("#maybedialog_button>.ok").click(function(){ $("#maybedialog form").submit(); });
+
+	// 拦截表单提交
+	maybeAjax.submit("#maybedialog form", function(data){
+		maybeAjax.alert(data);
+		if(window.maybeData.err==0) {
+			// 增加时记录状态
+			var cid = $("#maybedialog input[name='cid']").val();
+			if(!cid) {
+				var fields = $("#maybedialog input[name='mid'], #maybedialog input[name='type'], #maybedialog input[name='upid']").serializeArray();
+				$.each(fields, function(i, field) {
+					if(field.name == "mid") {
+						$("#set_dialog").attr("_mid", field.value);
+					}else if(field.name == "type") {
+						$("#set_dialog").attr("_type", field.value);
+					}else if(field.name == "upid") {
+						$("#set_dialog").attr("_upid", field.value);
+					}
+				});
+			}
+
+			remove_dialog();
+			setTimeout("window.location.reload()",1000);
+		}
+	});
+}
+
+// 移除编辑器
+function remove_dialog() {
+	$.maybeDialog("remove");
+}
+
+// 设置表单内的值
+function setFormVal(mid, type) {
+	$("#maybedialog").attr("mid", mid);
+	$("#maybedialog").attr("type", type);
+
+	if(mid == 1) {
+		$("#i_type").hide();
+		$("#i_page_content").show();
+		$("#i_show_tpl").hide();
+		$("#i_upid>th").html("上级分类");
+
+		// 单页时把类型设置为 0
+		$("#maybedialog input[name='type']").val([0]);
+		$("#maybedialog").attr("type", 0);
+		
+		editor_init();
+	}else{
+		$("#i_type").show();
+		$("#i_page_content").hide();
+		$("#i_show_tpl").show();
+		$("#i_upid>th").html("所属频道");
+	}
+	$("#i_cate_tpl>th").html(mid == 1 ? "单页模板" : (type == 1 ? "频道模板" : "列表模板"));
+
+	// 默认模板设置
+	var edit_mid = $("#maybedialog").attr("edit_mid");
+	var edit_type = $("#maybedialog").attr("edit_type");
+	if(!!edit_mid && edit_mid == mid && edit_type == type) {
+		$("#cate_tpl").val($("#cate_tpl").attr("v"));
+		$("#show_tpl").val($("#show_tpl").attr("v"));
+	}else{
+		var k = "models-mid-"+mid;
+		$("#cate_tpl").val(mid != 1 && type == 1 ? models[k]["index_tpl"] : models[k]["cate_tpl"]);
+		$("#show_tpl").val(models[k]["show_tpl"]);
+	}
+}
+
+//编辑分类
+function edit(cid) {
+	maybeAjax.postd("index.php?u=category-get_category_json-ajax-1", {cid:cid}, function(data){
+		data = toJson(data);
+		if(window.maybeEixt) return;
+		maybeAjax.remove();
+
+		// 加载会话框
+		load_dialog();
+		$("#maybedialog_title span").html("编辑分类");
+
+		// 遍历设置表单值
+		for(var v in data) {
+			$("#maybedialog [name='"+v+"']").val([data[v]]);
+		}
+
+		// 如果分类已发布了内容或有下级分类就不允许改变模型和类型
+		if(data.count > 0 || data.son_cate) {
+			$("#maybedialog input[name='mid']").each(function() {
+				if($(this).val() != data.mid) {
+					$(this).attr("disabled", "disabled");
+				}
+			});
+
+			$("#maybedialog input[name='type']").each(function() {
+				if($(this).val() != data.type) {
+					$(this).attr("disabled", "disabled");
+				}
+			});
+		}
+
+		// 记录模板设置
+		$("#cate_tpl").attr("v", data.cate_tpl);
+		$("#show_tpl").attr("v", data.show_tpl);
+
+		// 设置表单内的值
+		$("#maybedialog").attr("edit_mid", data.mid);
+		$("#maybedialog").attr("edit_type", data.type);
+		setFormVal(data.mid, data.type);
+
+		// 加载所属频道
+		loadCategoryUpid(data.mid, data.upid, data.cid);
+	});
+}
+
+//删除
+function del(cid) {
+	maybeAjax.confirm("删除不可恢复，确定删除？", function(){
+		maybeAjax.postd("index.php?u=category-del-ajax-1", {"cid":cid}, function(data){
+			maybeAjax.alert(data);
+			if(window.maybeData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+
+//加载所属频道
+function loadCategoryUpid(mid, upid, noid) {
+	maybeAjax.get("index.php?u=category-get_category_upid-ajax-1-mid-"+mid+"-upid-"+Math.max(0, upid)+"-noid-"+Math.max(0, noid)+"&r="+Math.random(), function(data){
+		data = toJson(data);
+		if(window.maybeEixt) return;
+		$("#upid").html(data.upid);
+	});
+}
+
+</script>
+{inc:footer.htm}

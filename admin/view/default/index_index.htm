@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<title>MOLYCMS 后台管理</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<link href="{$C[admin_static]}admin/css/maybecms.css" type="text/css" rel="stylesheet" />
+<link href="{$C[admin_static]}admin/css/css.css" type="text/css" rel="stylesheet" />
+<script src="{$C[admin_static]}js/jquery.js" type="text/javascript"></script>
+<script src="{$C[admin_static]}admin/js/menu.js" type="text/javascript"></script>
+</head>
+<body>
+	<div class="nav">
+		<!--头部左侧导航-->
+		<div class="top_menu">
+			{loop:$top_menu $m}
+				<a href="javascript:" nid="{$m[cid]}" onclick="get_left_menu({$m[cid]});" class="top_menu">
+					{$m[title]}
+				</a>
+			{/loop}
+		</div>
+		<!--头部左侧导航-->
+		<!--头部右侧导航-->
+		<div class="r_menu">
+			{$_group[groupname]}：{$_user[username]}&nbsp;
+			<a href="index.php?u=public-logout" target="_self">[退出]</a>
+			<span>|</span>
+			<a href="../index.php" target="_blank">前台首页</a>
+		</div>
+		<!--头部右侧导航-->
+	</div>
+	
+	<!--左侧导航-->
+		<div class="main">
+			<!--主体左侧导航-->
+			<div class="left_menu">
+				<div class="nid_0">
+					<dl>
+						<dt>系统信息</dt>
+						<dd><a href="javascript:;" class="action">系统信息</a></dd>
+					</dl>
+				</div>
+			</div>
+			<!--主体左侧导航-->
+			<!--内容显示区域-->
+			<div class="menu_nav">
+				<div class="direction">
+					<a href="#" class="left">向左</a>
+					<a href="#" class="right">向右</a>
+				</div>
+				<div class="favorite_menu">
+					<ul>
+						<li class="action" nid="0" style="border-left:solid 1px #D8D8D8;">
+							<a href="javascript:;" class="menu" topnid="0" nid="0">系统信息</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="top_content">
+				<iframe src="index.php?u=index-welcome" nid="0" scrolling="auto" frameborder="0"
+				style="height:100%;width:100%;"></iframe>
+			</div>
+			<!--内容显示区域-->
+		</div>
+</body>
+</html>

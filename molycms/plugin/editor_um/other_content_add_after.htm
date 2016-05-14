@@ -1,0 +1,58 @@
+<script type="text/javascript">
+(function(){
+	// 只加载一次
+	if(typeof window.editor_once != 'undefined') return;
+	window.editor_once = 1;
+
+	// 获取后台路径
+	window.admurl = (function() {
+		var url = document.URL || location.href;
+		return url.substr(0, url.lastIndexOf("/"));
+	})();
+
+	// 获取首页路径
+	window.weburl = (function() {
+		return admurl.substr(0, admurl.lastIndexOf("/"));
+	})();
+
+	window.UMEDITOR_HOME_URL = weburl+"/molycms/plugin/editor_um/umeditor/";
+
+	maybeLoadCss(UMEDITOR_HOME_URL+"themes/default/css/umeditor.min.css");
+	maybeLoadJs(UMEDITOR_HOME_URL+"umeditor.config.js", UMEDITOR_HOME_URL+"umeditor.min.js", UMEDITOR_HOME_URL+"lang/zh-cn/zh-cn.js", function(){
+		$("#content").removeAttr("class");
+
+		var ue = UM.getEditor("content", {initialFrameWidth : 800, imageUrl : UMEDITOR_CONFIG.imageUrl + '{$edit_cid_id}'});
+		window.editor_api = {
+			content : {
+				obj : ue,
+				get : function() {
+					return this.obj.getContent();
+				},
+				set : function(s) {
+					return this.obj.setContent(s);
+				},
+				focus : function() {
+					return this.obj.focus();
+				}
+			}
+		}
+
+		/**
+		// 编辑器内容发生改变时自动保存
+		if(action == "add") {
+			ue.addListener('contentChange', function() {
+				ue.sync();
+				autoSave();
+			});
+		}
+		*/
+
+		$(window).resize(function(){
+			var w = getWidth()-3;
+			$(".edui-container").width(w);
+			$(".edui-body-container").css({"width" : w-20});
+			$(".edui-editor-body textarea").eq(1).css({"width" : w});
+		});
+	});
+})();
+</script>

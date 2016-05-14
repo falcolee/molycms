@@ -1,0 +1,158 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=tag-index">标签列表</a></li>
+        <li><a href="javascript:add();">添加标签</a></li>
+      </ul>
+</div>
+<form method="post" action="index.php?u=tag-index">
+	<div class="h_a">搜索</div>
+	<div class="search_type cc mb10">
+	    <div class="mb10"> 
+		    <span class="mr20">
+		    标签类型：<select name="mid" id="mid">
+		        {loop:$mod_name $v $k}<option value="{$k}"{if:$mid == $k} selected="selected"{/if}>{$v}标签</option>{/loop}
+		     </select>
+		     标签名称：<input type="text" placeholder="标签名称" value="{$keyword}" name="keyword">
+		     <button class="btn">搜索</button>
+		      </span> 
+	      </div>
+	</div>
+	<div class="table_list">
+		<table cellspacing="0" width="100%">
+			<thead>
+				<tr>
+			        <td align="center" style="width:30px"></td>
+			        <td align="center" style="width:50px">Tagid</td>
+			        <td align="left">名称</td>
+			        <td align="center" style="width:150px">内容数</td>
+			        <td align="center" style="width:150px">操作</td>
+		    	</tr>
+			</thead>
+			<tbody>
+				{if:empty($list_arr)}
+	    		<tr class="no_data"><td colspan="5">暂无数据</td></tr>
+	    		{else}
+	    		{loop:$list_arr $v}
+				<tr>
+					<td><input type="checkbox" name="ids" _tagid="{$v[tagid]}"></td>
+					<td align="center">{$v[tagid]}</td>
+					<td>{$v[name]}</td>
+					<td align="center">{$v[count]}</td>
+					<td align="center">
+					<a class="btn" href="javascript:edit({$v[tagid]});">编辑</a> 
+					<a class="btn" href="{$v[url]}" target="_blank">查看</a> 
+					<a class="btn" href="javascript:del({$v[tagid]});">删除</a>
+					</td>
+				</tr>
+				{/loop}
+	    		{/if}
+			</tbody>
+		</table>
+	</div>
+	<div class="page_nav mt5">
+		<span>共 <font color="red">{$total}</font> 条</span>{$pages}
+	</div>
+	<div class="position-bottom">
+        <label class="mr20"><input type="checkbox" onclick="selectall('ids',this);">全选</label>
+        <button onclick="batch_del()" type="button" class="btn btn_submit">删除</button>
+    </div>
+</form>
+
+<script id="edit_code" type="text/html">
+	<div class="table_full">
+	<table width="100%">
+		<tr>
+			<th width="80">名称<b class="red">*</b></th>
+			<td><input id="t_name" name="name" type="text" class="input" /></td>
+		</tr>
+		<tr>
+			<th>描述</th>
+			<td><textarea id="t_content" name="content" class="inp w3" style="width:98%"></textarea></td>
+		</tr>
+	</table>
+	</div>
+</script>
+
+<script type="text/javascript">
+var _mid = $("#mid").val();
+$("#mid").change(function(){
+	var mid = $(this).val();
+	location.href = 'index.php?u=tag-index-mid-'+ mid;
+});
+
+//对话框
+function maybeDialog() {
+	$.maybeDialog({content:$("#edit_code").html(), resizable:true, open:true, modal:true, width:900, height:280, minW:500, minH:280});
+}
+
+//添加
+function add() {
+	maybeDialog();
+
+	//提交
+	$("#maybedialog_button>.ok").click(function(){
+		var name = $("#t_name").val();
+		var content = $("#t_content").val();
+		maybeAjax.postd("index.php?u=tag-add-ajax-1", {"mid":_mid, "name":name, "content":content}, function(data){
+			maybeAjax.alert(data);
+			$.maybeDialog("remove");
+			if(window.maybeData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+
+//编辑
+function edit(tagid) {
+	maybeDialog();
+
+	//读取
+	maybeAjax.postd("index.php?u=tag-get_json-ajax-1", {"mid":_mid, "tagid":tagid}, function(data){
+		var json = toJson(data);
+		$("#t_name").val(json.name);
+		$("#t_content").val(json.content);
+		maybeAjax.remove();
+	});
+
+	//提交
+	$("#maybedialog_button>.ok").click(function(){
+		var name = $("#t_name").val();
+		var content = $("#t_content").val();
+		maybeAjax.postd("index.php?u=tag-edit-ajax-1", {"mid":_mid, "tagid":tagid, "name":name, "content":content}, function(data){
+			maybeAjax.alert(data);
+			$.maybeDialog("remove");
+			if(window.maybeData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+
+//批量删除
+function batch_del() {
+	maybeAjax.confirm("删除不可恢复，确定删除？", function(){
+		var id_arr = {};
+		var len = $("input[name='ids']").length;
+		for(var i=0; i<len; i++) {
+			var obj = $("input[name='ids']").eq(i);
+			if(obj[0].checked) {
+				id_arr[i] = obj.attr("_tagid");
+			}
+		}
+		
+		maybeAjax.postd("index.php?u=tag-batch_del-ajax-1", {"mid":_mid, "id_arr":id_arr}, function(data){
+			maybeAjax.alert(data);
+			if(window.maybeData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+
+//删除
+function del(tagid) {
+	maybeAjax.confirm("删除不可恢复，确定删除？", function(){
+		maybeAjax.postd("index.php?u=tag-del-ajax-1", {"mid":_mid, "tagid":tagid}, function(data){
+			maybeAjax.alert(data);
+			if(window.maybeData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+</script>
+{inc:footer.htm}

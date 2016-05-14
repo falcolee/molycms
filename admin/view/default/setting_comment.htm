@@ -1,0 +1,51 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="javascript:;">评论设置</a></li>
+    </ul>
+</div>
+<style type="text/css">
+textarea{height:100px;width:480px;}
+</style>
+<form class="check_form" action="index.php?u=setting-comment-ajax-1" method="post">
+	<div class="h_a">基本属性</div>
+	<div class="table_full">
+		<table width="100%">
+			<tbody>
+				<tr>
+		            <th width="80">关闭全站评论</th>
+		            <td>
+		            	<input type="checkbox" name="dis_comment" value="1" {if:$input['dis_comment']} checked="checked"{/if}>
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>会员才能评论</th>
+		            <td>
+		            	<input type="checkbox" name="user_comment" value="1" {if:$input['user_comment']} checked="checked"{/if}>
+		            </td>
+		        </tr>
+		        <tr>
+		            <th>评论敏感词</th>
+		            <td>
+		            	{$input[comment_filter]}（多个词用:::隔开，例如：黄色:::法轮功）
+		            </td>
+		        </tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="btn_wrap">
+    	<div class="btn_wrap_pd">             
+        	<button type="submit" class="btn btn_submit mr10">保存</button>
+      	</div>
+    </div>
+</form>    
+	
+	
+
+<script type="text/javascript">
+maybeAjax.submit("form:first", function(data){
+	maybeAjax.alert(data);
+	if(window.maybeData.err==0) setTimeout("window.location.reload()",1000);
+});
+</script>
+{inc:footer.htm}

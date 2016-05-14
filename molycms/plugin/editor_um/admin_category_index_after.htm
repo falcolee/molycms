@@ -1,0 +1,43 @@
+<script type="text/javascript">
+window.editor_init = function(){
+	// 隐藏时表示已经创建编辑器 (保证只创建一次)
+	if($("#page_content:hidden").length > 0) return;
+
+	// 获取后台路径
+	window.admurl = (function() {
+		var url = document.URL || location.href;
+		return url.substr(0, url.lastIndexOf("/"));
+	})();
+
+	// 获取首页路径
+	window.weburl = (function() {
+		return admurl.substr(0, admurl.lastIndexOf("/"));
+	})();
+
+	window.UMEDITOR_HOME_URL = weburl+"/molycms/plugin/editor_um/umeditor/";
+
+	// UM二次加载，需先删除编辑器。否则不会加载
+	if(typeof UM == 'object') UM.delEditor('page_content');
+
+	maybeLoadCss(UMEDITOR_HOME_URL+"themes/default/css/umeditor.min.css");
+	maybeLoadJs(UMEDITOR_HOME_URL+"umeditor.config.js", UMEDITOR_HOME_URL+"umeditor.min.js", UMEDITOR_HOME_URL+"lang/zh-cn/zh-cn.js", function(){
+		$("#page_content").removeAttr("class");
+
+		var ue = UM.getEditor('page_content');
+		window.editor_api = {
+				page_content : {
+				obj : ue,
+				get : function() {
+					return this.obj.getContent();
+				},
+				set : function(s) {
+					return this.obj.setContent(s);
+				},
+				focus : function() {
+					return this.obj.focus();
+				}
+			}
+		}
+	});
+}
+</script>

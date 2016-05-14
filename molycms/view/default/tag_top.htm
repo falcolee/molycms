@@ -1,0 +1,24 @@
+{inc:header.htm}
+
+	<!--两列开始-->
+	<div class="cont cf">
+		<div class="m_l">
+			<div class="b2_tit b10">
+				<a href="{$moly[weburl]}">首页</a> &#187; 热门标签
+			</div>
+			{block:taglist limit="1000"}
+			<div class="b1_top">
+				<div class="b1_cont cf">
+					{loop:$data[list] $v}<a href="{$v[url]}">{$v[name]}({$v[count]})</a> &nbsp; {/loop}
+				</div>
+			</div>
+			{/block}
+		</div>
+
+		<div class="m_r">
+			{inc:right.htm}
+		</div>
+	</div>
+	<!--两列结束-->
+
+{inc:footer.htm}

@@ -1,0 +1,4 @@
+User-agent: * 
+Disallow: /molycms/
+Disallow: /admin*
+Disallow: /user/

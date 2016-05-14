@@ -1,0 +1,40 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li class="current"><a href="index.php?u=navigate-nav">导航列表</a></li>
+      </ul>
+</div>
+
+	<div class="table_list">
+	<table cellspacing="0" width="100%">
+		<thead>
+			<tr>
+                <td width=50  align="left">ID</td>
+                <td>标题</td>
+                <td>备注</td>
+                <td width=50  align="left">操作</td>
+	    	</tr>
+		</thead>
+		<tbody>
+			
+	    	{if:empty($list)}
+	    		<tr class="no_data"><td colspan="5">暂无数据</td></tr>
+	    	{else}
+		    	{loop:$list $v}
+		            <tr>
+		            	<td>{$v[id]}</td>
+                        <td>{$v[title]}</td>
+			        	<td>{$v[remark]}</td>
+			        	<td align="center">
+                            <a class="btn" href="index.php?u=navigate-index-id-{$v[id]}">编辑</a>
+						</td>
+		        	</tr>
+	        	{/loop}
+        	{/if}
+    	</tbody>
+	</table>
+	</div>
+	<div class="page_nav">
+        <span>共 <font color="red">{$total}</font> 条</span>{$pages}
+	</div>
+{inc:footer.htm}

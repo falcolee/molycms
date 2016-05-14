@@ -1,0 +1,54 @@
+{inc:header.htm}
+<style>
+.home_info {
+    color: #666;
+    padding: 5px 10px 20px;
+}
+.home_info li {
+    line-height: 25px;
+}
+.home_info li:after {
+    clear: both;
+    content: " ";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.home_info li em {
+    float: left;
+    font-style: normal;
+    width: 100px;
+}
+.home_info li span {
+    display: block;
+    overflow: hidden;
+}
+.home_info li span a {
+    color: #266aae;
+    text-decoration: none;
+}
+</style>
+	<h2 class="h_a">系统信息</h2>
+	<div class="home_info">
+		<ul>
+			<li><em>操作系统</em><span>{$info[os]}</span></li>
+			<li><em>运行环境</em><span>{$info[software]}</span></li>
+			<li><em>MYSQL</em><span>{$info[mysql]}</span></li>
+			<li><em>PHP版本</em><span>{$info[php]}</span></li>
+			<li><em>剩余空间</em><span>{$info[space_free]}</span></li>
+			<li><em>上传限制</em><span>{$info[filesize]}</span></li>
+			<li><em>执行限制</em><span>{$info[exectime]}秒</span></li>
+			<li><em>安全模式</em><span>{$info[safe_mode]}</span></li>
+			<li><em>远程访问</em><span>{$info[url_fopen]}</span></li>
+			<li><em>其它支持</em><span>{$info[other]}</span></li>
+		</ul>
+	</div>
+	<h2 class="h_a">开发团队</h2>
+	<div class="home_info">
+		<ul>
+			<li><em>版权所有</em><span>MolyCMS</span></li>
+			<li><em>程序版本</em><span>MolyCMS {$C[version]} Release {$C[release]}</span></li>
+			<li><em>联系邮箱</em><span>skylzl001@163.com</span></li>
+		</ul>
+	</div>
+{inc:footer.htm}

@@ -1,0 +1,129 @@
+{inc:header.htm}
+<div class="nav">
+    <ul class="cc">
+        <li><a href="index.php?u=user-index">用户管理</a></li>
+        <li class="current"><a href="index.php?u=user-add">添加用户</a></li>
+      </ul>
+</div>
+
+
+<form class="check_form" action="index.php?u=user-add" method="post">
+	<div class="h_a">基本属性</div>
+	<div class="table_full">
+		<table width="100%">
+			<tbody>
+				<tr>
+		            <th width="80">所属组</th>
+		            <td>
+		            	<select name="info[groupid]">
+		            		{loop:$user_group $v}
+		            		<option value="{$v[groupid]}">{$v[groupname]}</option>
+		            		{/loop}
+		            	</select>
+		            </td>
+		        </tr>
+				<tr>
+		            <th width="80">用户名</th>
+		            <td><input type="text" id="username" name="info[username]" maxlength="16"></td>
+		        </tr>
+		        <tr>
+		            <th>密码</th>
+		            <td><input type="password" id="password" name="info[password]" maxlength="32"></td>
+		        </tr>
+		        <tr>
+		            <th>确认密码</th>
+		            <td><input type="password" id="repassword" name="info[repassword]" maxlength="32"></td>
+		        </tr>
+		        <tr>
+		            <th>邮箱</th>
+		            <td><input type="text" id="email" name="info[email]"></td>
+		        </tr>
+		        <tr>
+		            <th>责任编辑</th>
+		            <td><input type="text" name="info[author]"><span class="gray">（为空等于用户名）</span></td>
+		        </tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="h_a">详细属性</div>
+	<div class="table_full">
+		<table width="100%">
+			<tbody>
+				<tr>
+		            <th width="80">个人主页</th>
+		            <td><input size="80" type="text" name="data_info[homepage]"></td>
+		        </tr>
+		        <tr>
+		            <th>个人简介</th>
+		            <td><input size="80" type="text" name="data_info[intro]"></td>
+		        </tr>
+		        <tr>
+		            <th>QQ</th>
+		            <td><input maxlength="11" type="text" name="data_info[qq]"></td>
+		        </tr>
+		        <tr>
+		            <th>手机号</th>
+		            <td><input maxlength="11" type="text" name="data_info[mobile]"></td>
+		        </tr>
+		        <tr>
+		            <th>电话</th>
+		            <td><input maxlength="40" type="text" name="data_info[tel]"></td>
+		        </tr>
+		        <tr>
+		            <th>地址</th>
+		            <td><input size="80" type="text" name="data_info[address]"></td>
+		        </tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="btn_wrap">
+    	<div class="btn_wrap_pd">             
+        	<button type="submit" class="btn btn_submit mr10">添加</button>
+      	</div>
+    </div>
+	
+</form>
+
+<script type="text/javascript">
+	oInitJson = {
+        tiptype:3,
+        beforeSubmit:function(){
+        	var email = $("#email").val();
+        	if( email ){
+        		var pattern = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        		if(!pattern.test(email)){
+        			alert("请输入正确格式的邮箱！");
+        			return false;
+        		}
+        	}
+        }
+    };
+    var oVdForm = $(".check_form").Validform(oInitJson);
+    oVdForm.addRule([
+        {
+            ele:"#username",
+            datatype:"*2-16",
+            altercss:"tipColor",
+            nullmsg:"请输入用户名",
+            errormsg:"用户名为2~16位"
+        },
+        {
+            ele:"#password",
+            datatype:"*6-32",
+            altercss:"tipColor",
+            nullmsg:"请输入6~32位密码",
+            errormsg:"密码由6~32位字符串组成"
+        },
+        {
+            ele:"#repassword",
+            datatype:"*6-32",
+            altercss:"tipColor",
+            recheck:"info[password]",
+            nullmsg:"请输入确认密码",
+            errormsg:"两次输入的密码不一致"
+        }
+    ]);
+
+</script>
+
+{inc:footer.htm}
